@@ -56,12 +56,12 @@
 						<h5 class="modal-title" id="editRecordModalLabel">Edit Record</h5>
 					</div>
 					<div class="modal-body">
-						{% set data = { id: 'addForm', action: 'zone-editor#updateRecord' } %}
+						{% set data = { id: 'editForm', action: 'zone-editor#updateRecord' } %}
 						{% include 'forms/record.twig' with data %}
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Create</button>
+						<button type="submit" class="btn btn-primary" form="editForm">Save</button>
 					</div>
 				</div>
 			</div>
