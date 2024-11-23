@@ -2,30 +2,69 @@
 
 {% block main %}
     {{ parent() }}
-	<h2 style="float: left;">Records</h2>
-	<a href="" class="btn btn-primary" style="float: right;">Add Record</a>
-	<table class="table table-bordered table-striped">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>TTL</th>
-				<th>Type</th>
-				<th>Content</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for record in records %}
-				{% if record.type != 'SOA' %}
-					<tr>
-						<td>{{ record.name }}</td>
-						<td>{{ record.ttl }}</td>
-						<td>{{ record.type }}</td>
-						<td style="word-break: break-word;">{{ record.content }}</td>
-						<td></td>
-					</tr>
-				{% endif %}
-			{% endfor %}
-		</tbody>
-	</table>
+	<turbo-frame class="zone-editor" data-controller="zone-editor" id="records">
+		<h2 style="float: left;">Records</h2>
+		<button class="btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#newRecordModal">Add Record</button>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>TTL</th>
+					<th>Type</th>
+					<th>Content</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for record in records %}
+					{% if record.type != 'SOA' %}
+						<tr>
+							<td>{{ record.name }}</td>
+							<td>{{ record.ttl }}</td>
+							<td>{{ record.type }}</td>
+							<td style="word-break: break-word;">{{ record.content }}</td>
+							<td>
+								<a href="#" class="action-detail" data-bs-toggle="modal" data-bs-target="#editRecordModal" data-action="zone-editor#editRecord" data-id="{{ record.name }}">Edit</a>
+								<a href="#" class=" action-delete text-danger" data-action="zone-editor#deleteRecord" data-id="{{ record.name }}">Delete</a>
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="modal fade" id="newRecordModal" tabindex="-1" role="dialog" aria-labelledby="newRecordModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="newRecordModalLabel">Add Record</h5>
+					</div>
+					<div class="modal-body">
+						{% set data = { id: 'addForm', action: 'zone-editor#addRecord' } %}
+						{% include 'forms/record.twig' with data %}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" form="addForm">Create</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="editRecordModal" tabindex="-1" role="dialog" aria-labelledby="editRecordModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editRecordModalLabel">Edit Record</h5>
+					</div>
+					<div class="modal-body">
+						{% set data = { id: 'addForm', action: 'zone-editor#updateRecord' } %}
+						{% include 'forms/record.twig' with data %}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Create</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</turbo-frame>
 {% endblock %}
