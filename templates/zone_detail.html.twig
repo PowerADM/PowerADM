@@ -2,7 +2,7 @@
 
 {% block main %}
     {{ parent() }}
-	<turbo-frame class="zone-editor" data-controller="zone-editor" id="records">
+	<twig:Turbo:Frame class="zone-editor" data-controller="zone-editor" id="records" data-zone="{{ zone.getCanonicalName() }}">
 		<h2 style="float: left;">Records</h2>
 		<button class="btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#newRecordModal">Add Record</button>
 		<table class="table table-bordered table-striped">
@@ -66,5 +66,5 @@
 				</div>
 			</div>
 		</div>
-	</turbo-frame>
+	</twig:Turbo:Frame>
 {% endblock %}

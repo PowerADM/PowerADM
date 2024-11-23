@@ -34,7 +34,20 @@ export default class extends Controller {
 		event.preventDefault();
 		let target = event.target;
 		let record = target.dataset.record;
-		console.log(record);
+		let zone = target.closest('.zone-editor').dataset.zone;
+
+		let body = {
+			zone: zone,
+			record: JSON.parse(record)
+		}
+		fetch('/api/modify-record', {
+			method: 'DELETE',
+			body: JSON.stringify(body),
+		}).then(response => {
+			if (response.ok) {
+				window.location.reload();
+			}
+		});
 	}
 
 	editRecord(event) {
