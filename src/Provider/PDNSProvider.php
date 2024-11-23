@@ -5,10 +5,9 @@ namespace App\Provider;
 use Exonet\Powerdns\Powerdns;
 
 class PDNSProvider {
-
 	private Powerdns $pdns;
 
-	public function __construct(){
+	public function __construct() {
 		$this->pdns = new Powerdns($_ENV['PDNS_API_URL'], $_ENV['PDNS_API_KEY']);
 	}
 
@@ -28,7 +27,7 @@ class PDNSProvider {
 				];
 			}
 		}
+
 		return $records;
 	}
-
 }

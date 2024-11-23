@@ -7,6 +7,8 @@ use App\Provider\PDNSProvider;
 use App\Repository\ForwardZoneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -52,17 +54,27 @@ class ForwardZoneCrudController extends AbstractCrudController {
 				->setEntityLabelInSingular('Forward Zone')
 				->setEntityLabelInPlural('Forward Zones')
 				->setSearchFields(['name'])
+				->renderContentMaximized()
+				->showEntityActionsInlined(true)
+				->overrideTemplate('crud/detail', 'zone_detail.html.twig')
 		;
 	}
 
-	public function detail(AdminContext $context){
+	public function configureActions(Actions $actions): Actions {
+		return $actions
+			->disable(Action::EDIT)
+			->disable(Action::BATCH_DELETE)
+			->add(Crud::PAGE_INDEX, Action::DETAIL)
+		;
+	}
+
+	public function detail(AdminContext $context) {
 		$zone = $this->pdns->zone($context->getEntity()->getInstance()->getName());
 		$records = $zone->resource()->getResourceRecords();
 		$responseParameters = parent::detail($context);
-		$responseParameters->set('templatePath', 'zone_detail.html.twig');
-		$responseParameters->set('templateName', '');
 		$responseParameters->set('zone', $zone);
 		$responseParameters->set('records', $this->pdnsProvider->resourceRecordsToSingleRecords($records));
+
 		return $responseParameters;
 	}
 

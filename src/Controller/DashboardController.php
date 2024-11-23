@@ -15,14 +15,16 @@ use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
 class DashboardController extends AbstractDashboardController {
-    public function __construct(
-        private ChartBuilderInterface $chartBuilder,
-    ) {
-    }
+	public function __construct(
+		private ChartBuilderInterface $chartBuilder,
+	) {
+	}
+
 	#[Route('/', name: 'padm')]
 	public function index(): Response {
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
-        return $this->render('dashboard.html.twig', [
+		$chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+
+		return $this->render('dashboard.html.twig', [
 			'chart' => $chart,
 		]);
 	}
