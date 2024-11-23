@@ -27,16 +27,70 @@ export default class extends Controller {
 			case 'OPENPGPKEY':
 			case 'TXT':
 				console.log('Add record', type, name, ttl, content);
-				break;
 		}
 	}
 
-	deleteRecord() {
-		console.log('Delete record');
+	deleteRecord(event) {
+		event.preventDefault();
+		let target = event.target;
+		let record = target.dataset.record;
+		console.log(record);
 	}
 
-	editRecord() {
-		console.log('Edit record');
+	editRecord(event) {
+		event.preventDefault();
+		let targetElement = event.target;
+		let record = JSON.parse(targetElement.dataset.record);
+		let modal = targetElement.dataset.bsTarget;
+		let form = document.querySelector(modal).querySelector('form');
+		console.log(record);
+		form.querySelector('select[name="type"]').value = record.type;
+		form.querySelector('select[name="type"]').dispatchEvent(new Event('change'));
+		form.querySelector('input[name="name"]').value = record.name;
+		form.querySelector('input[name="ttl"]').value = record.ttl;
+		switch(record.type) {
+			case 'A':
+			case 'AAAA':
+			case 'ALIAS':
+			case 'CNAME':
+			case 'NS':
+				form.querySelector('input[name="target"]').value = record.content;
+				break;
+			case 'CAA':
+				[record.flag, record.tag, record.content] = record.content.split(' ');
+				form.querySelector('input[name="flag"]').value = record.flag;
+				form.querySelector('input[name="tag"]').value = record.tag;
+				form.querySelector('input[name="content"]').value = record.content.replace(/^"+|"+$/g, '');
+				break;
+			case 'MX':
+				[record.priority, record.target] = record.content.split(' ');
+				form.querySelector('input[name="priority"]').value = record.priority;
+				form.querySelector('input[name="target"]').value = record.target;
+				break;
+			case 'SRV':
+				[record.priority, record.weight, record.port, record.target] = record.content.split(' ');
+				form.querySelector('input[name="priority"]').value = record.priority;
+				form.querySelector('input[name="weight"]').value = record.weight;
+				form.querySelector('input[name="port"]').value = record.port;
+				form.querySelector('input[name="target"]').value = record.target;
+				break;
+			case 'SSHFP':
+				[record.class, record.algo, record.content] = record.content.replace(/^"+|"+$/g, '').split(' ');
+				form.querySelector('input[name="class"]').value = record.class;
+				form.querySelector('input[name="algo"]').value = record.algo;
+				form.querySelector('input[name="content"]').value = record.content;
+				break;
+			case 'TLSA':
+				[record.usage, record.selector, record.matching_type, record.content] = record.content.replace(/^"+|"+$/g, '').split(' ');
+				form.querySelector('input[name="usage"]').value = record.usage;
+				form.querySelector('input[name="selector"]').value = record.selector;
+				form.querySelector('input[name="matching-type"]').value = record.matching_type;
+				form.querySelector('input[name="content"]').value = record.content;
+				break;
+			case 'OPENPGPKEY':
+			case 'TXT':
+				form.querySelector('input[name="content"]').value = record.content.replace(/^"+|"+$/g, '');
+		}
 	}
 
 	updateRecord(event) {
@@ -65,7 +119,6 @@ export default class extends Controller {
 			case 'OPENPGPKEY':
 			case 'TXT':
 				console.log('Update record', type, name, ttl, content);
-				break;
 		}
 	}
 
@@ -83,8 +136,8 @@ export default class extends Controller {
 			ALIAS: ['target'],
 			CAA: ['flag', 'tag', 'content'],
 			CNAME: ['target'],
-			NS: ['target'],
 			MX: ['priority', 'target'],
+			NS: ['target'],
 			SRV: ['priority', 'weight', 'port', 'target'],
 			SSHFP: ['class', 'algo', 'content'],
 			OPENPGPKEY: ['content'],

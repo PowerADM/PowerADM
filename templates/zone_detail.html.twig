@@ -24,8 +24,8 @@
 							<td>{{ record.type }}</td>
 							<td style="word-break: break-word;">{{ record.content }}</td>
 							<td>
-								<a href="#" class="action-detail" data-bs-toggle="modal" data-bs-target="#editRecordModal" data-action="zone-editor#editRecord" data-id="{{ record.name }}">Edit</a>
-								<a href="#" class=" action-delete text-danger" data-action="zone-editor#deleteRecord" data-id="{{ record.name }}">Delete</a>
+								<a href="#" class="action-detail" data-bs-toggle="modal" data-bs-target="#editRecordModal" data-action="zone-editor#editRecord" data-record="{{ record|json_encode }}">Edit</a>
+								<a href="#" class=" action-delete text-danger" data-action="zone-editor#deleteRecord" data-record="{{ record|json_encode }}">Delete</a>
 							</td>
 						</tr>
 					{% endif %}
