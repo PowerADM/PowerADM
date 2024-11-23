@@ -24,7 +24,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: App\Entity\User
+                class: PowerADM\Entity\User
                 property: username
 
 when@test:

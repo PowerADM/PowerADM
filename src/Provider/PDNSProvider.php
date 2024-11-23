@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Provider;
+namespace PowerADM\Provider;
 
 use Exonet\Powerdns\Powerdns;
 

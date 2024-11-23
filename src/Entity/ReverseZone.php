@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace PowerADM\Entity;
 
-use App\Repository\ReverseZoneRepository;
 use Doctrine\ORM\Mapping as ORM;
+use PowerADM\Repository\ReverseZoneRepository;
 
 #[ORM\Entity(repositoryClass: ReverseZoneRepository::class)]
 class ReverseZone {

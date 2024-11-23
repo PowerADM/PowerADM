@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace PowerADM;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;

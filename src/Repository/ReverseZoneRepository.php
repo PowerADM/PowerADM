@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace PowerADM\Repository;
 
-use App\Entity\ReverseZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PowerADM\Entity\ReverseZone;
 
 /**
  * @extends ServiceEntityRepository<ReverseZone>

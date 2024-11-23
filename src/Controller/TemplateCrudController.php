@@ -1,26 +1,32 @@
 <?php
 
-namespace App\Controller;
+namespace PowerADM\Controller;
 
-use App\Entity\Template;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use PowerADM\Entity\Template;
 
 class TemplateCrudController extends AbstractCrudController {
 	public static function getEntityFqcn(): string {
 		return Template::class;
 	}
 
-	/*
-	public function configureFields(string $pageName): iterable
-	{
-		return [
-			IdField::new('id'),
-			TextField::new('title'),
-			TextEditorField::new('description'),
-		];
+	public function configureCrud(Crud $crud): Crud {
+		return $crud
+				->setEntityLabelInSingular('Template')
+				->setEntityLabelInPlural('Templates')
+				->setSearchFields(['name', 'description'])
+				->renderContentMaximized()
+				->showEntityActionsInlined(true)
+		;
 	}
-	 */
+
+	public function configureActions(Actions $actions): Actions {
+		return $actions
+			->disable(Action::BATCH_DELETE)
+			->add(Crud::PAGE_INDEX, Action::DETAIL)
+		;
+	}
 }

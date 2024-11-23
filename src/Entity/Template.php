@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity;
+namespace PowerADM\Entity;
 
-use App\Repository\TemplateRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PowerADM\Repository\TemplateRepository;
 
 #[ORM\Entity(repositoryClass: TemplateRepository::class)]
 class Template {

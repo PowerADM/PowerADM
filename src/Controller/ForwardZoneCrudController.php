@@ -1,10 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace PowerADM\Controller;
 
-use App\Entity\ForwardZone;
-use App\Provider\PDNSProvider;
-use App\Repository\ForwardZoneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -13,6 +10,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Exonet\Powerdns\Powerdns;
+use PowerADM\Entity\ForwardZone;
+use PowerADM\Provider\PDNSProvider;
+use PowerADM\Repository\ForwardZoneRepository;
 
 #[AdminCrud(routePath: '/zones/forward', routeName: 'forwardzones')]
 class ForwardZoneCrudController extends AbstractCrudController {

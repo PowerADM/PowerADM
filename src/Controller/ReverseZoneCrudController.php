@@ -1,10 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace PowerADM\Controller;
 
-use App\Entity\ReverseZone;
-use App\Provider\PDNSProvider;
-use App\Repository\ReverseZoneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -13,6 +10,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Exonet\Powerdns\Powerdns;
+use PowerADM\Entity\ReverseZone;
+use PowerADM\Provider\PDNSProvider;
+use PowerADM\Repository\ReverseZoneRepository;
 
 #[AdminCrud(routePath: '/zones/reverse', routeName: 'reversezone')]
 class ReverseZoneCrudController extends AbstractCrudController {
