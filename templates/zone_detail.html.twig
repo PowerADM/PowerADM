@@ -1,0 +1,31 @@
+{% extends '@EasyAdmin/crud/detail.html.twig' %}
+
+{% block main %}
+    {{ parent() }}
+	<h2 style="float: left;">Records</h2>
+	<a href="" class="btn btn-primary" style="float: right;">Add Record</a>
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>TTL</th>
+				<th>Type</th>
+				<th>Content</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for record in records %}
+				{% if record.type != 'SOA' %}
+					<tr>
+						<td>{{ record.name }}</td>
+						<td>{{ record.ttl }}</td>
+						<td>{{ record.type }}</td>
+						<td style="word-break: break-word;">{{ record.content }}</td>
+						<td></td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
