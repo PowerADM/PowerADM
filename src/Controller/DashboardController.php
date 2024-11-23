@@ -2,6 +2,7 @@
 
 namespace PowerADM\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -11,28 +12,25 @@ use PowerADM\Entity\Template;
 use PowerADM\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
 
 class DashboardController extends AbstractDashboardController {
-	public function __construct(
-		private ChartBuilderInterface $chartBuilder,
-	) {
-	}
-
 	#[Route('/', name: 'padm')]
 	public function index(): Response {
-		$chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+		return $this->render('dashboard.html.twig');
+	}
 
-		return $this->render('dashboard.html.twig', [
-			'chart' => $chart,
-		]);
+	public function configureAssets(): Assets {
+		return Assets::new()
+				->addCssFile('css/style.css')
+				->addAssetMapperEntry('app')
+		;
 	}
 
 	public function configureDashboard(): Dashboard {
 		return Dashboard::new()
 			->setTitle('PowerADM')
 			->setDefaultColorScheme('auto')
+			->generateRelativeUrls(true)
 		;
 	}
 

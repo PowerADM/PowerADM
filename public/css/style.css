@@ -1,0 +1,6 @@
+:root{
+	--color-primary: #e66e00;
+	--link-color: var(--color-primary);
+	--sidebar-menu-active-item-bg: rgba(230, 110, 0, 0.1);
+	--dropdown-settings-active-item-bg: var(--sidebar-menu-active-item-bg);
+}
