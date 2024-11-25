@@ -20,29 +20,7 @@ class ReverseZoneCrudController extends AbstractCrudController {
 
 	public function __construct(private PDNSProvider $pdnsProvider, private ReverseZoneRepository $reverseZoneRepository, private EntityManagerInterface $entityManager) {
 		$this->pdns = $pdnsProvider->get();
-
-		$zones = $this->pdns->listZones();
-		foreach ($zones as $zone) {
-			$name = $zone->getCanonicalName();
-			if (!str_ends_with($name, '.in-addr.arpa.') && !str_ends_with($name, '.ip6.arpa.')) {
-				continue;
-			}
-			$resource = $zone->resource();
-			if ($localZone = $this->reverseZoneRepository->findOneBy(['name' => $name])) {
-				$localZone->setType($resource->getKind());
-				$localZone->setSerial($resource->getSerial());
-				$this->entityManager->persist($localZone);
-				$this->entityManager->flush();
-				continue;
-			}
-			$reverseZone = new ReverseZone();
-			$reverseZone->setName($name);
-			$reverseZone->setType($resource->getKind());
-			$reverseZone->setSerial($resource->getSerial());
-
-			$this->entityManager->persist($reverseZone);
-			$this->entityManager->flush();
-		}
+		$pdnsProvider->updateZones(false);
 	}
 
 	public static function getEntityFqcn(): string {
@@ -57,6 +35,7 @@ class ReverseZoneCrudController extends AbstractCrudController {
 				->renderContentMaximized()
 				->showEntityActionsInlined(true)
 				->overrideTemplate('crud/detail', 'zone_detail.html.twig')
+				->setPageTitle('detail', fn (ReverseZone $reverseZone) => sprintf('Reverse Zone - %s', $reverseZone->getName()))
 		;
 	}
 
@@ -73,7 +52,7 @@ class ReverseZoneCrudController extends AbstractCrudController {
 		$records = $zone->resource()->getResourceRecords();
 		$responseParameters = parent::detail($context);
 		$responseParameters->set('zone', $zone);
-		$responseParameters->set('records', $this->pdnsProvider->resourceRecordsToSingleRecords($records));
+		$responseParameters->set('records', $this->pdnsProvider->resourceRecordsToSingleRecords($records, $zone->getCanonicalName()));
 
 		return $responseParameters;
 	}

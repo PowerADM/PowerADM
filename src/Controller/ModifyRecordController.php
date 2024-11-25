@@ -34,6 +34,7 @@ class ModifyRecordController extends AbstractController {
 
 			return $rr;
 		}, $rrs);
+		$result->setTtl($body['record']['ttl']);
 		$result->setRecords($rrs);
 		$result->save();
 
@@ -53,7 +54,7 @@ class ModifyRecordController extends AbstractController {
 		$records = $pdnsZone->find($name, $type);
 
 		if (isset($records[0]) === false) {
-			$pdnsZone->create($name, $type, $body['record']['content']);
+			$pdnsZone->create($name, $type, $body['record']['content'], $body['record']['ttl']);
 		} else {
 			$result = $records[0];
 			$rrs = $result->getRecords();

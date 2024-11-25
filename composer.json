@@ -11,6 +11,7 @@
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.3",
+        "drenso/symfony-oidc-bundle": "^3.4",
         "easycorp/easyadmin-bundle": "^4.15",
         "exonet/powerdns-php": "^4.6",
         "phpdocumentor/reflection-docblock": "^5.6",

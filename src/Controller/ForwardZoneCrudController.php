@@ -20,29 +20,7 @@ class ForwardZoneCrudController extends AbstractCrudController {
 
 	public function __construct(private PDNSProvider $pdnsProvider, private ForwardZoneRepository $forwardZoneRepository, private EntityManagerInterface $entityManager) {
 		$this->pdns = $pdnsProvider->get();
-
-		$zones = $this->pdns->listZones();
-		foreach ($zones as $zone) {
-			$name = $zone->getCanonicalName();
-			if (str_ends_with($name, '.in-addr.arpa.') || str_ends_with($name, '.ip6.arpa.')) {
-				continue;
-			}
-			$resource = $zone->resource();
-			if ($localZone = $this->forwardZoneRepository->findOneBy(['name' => $name])) {
-				$localZone->setType($resource->getKind());
-				$localZone->setSerial($resource->getSerial());
-				$this->entityManager->persist($localZone);
-				$this->entityManager->flush();
-				continue;
-			}
-			$forwardZone = new ForwardZone();
-			$forwardZone->setName($name);
-			$forwardZone->setType($resource->getKind());
-			$forwardZone->setSerial($resource->getSerial());
-
-			$this->entityManager->persist($forwardZone);
-			$this->entityManager->flush();
-		}
+		$pdnsProvider->updateZones();
 	}
 
 	public static function getEntityFqcn(): string {
@@ -57,6 +35,7 @@ class ForwardZoneCrudController extends AbstractCrudController {
 				->renderContentMaximized()
 				->showEntityActionsInlined(true)
 				->overrideTemplate('crud/detail', 'zone_detail.html.twig')
+				->setPageTitle('detail', fn (ForwardZone $forwardZone) => sprintf('Forward Zone - %s', $forwardZone->getName()))
 		;
 	}
 
@@ -73,7 +52,7 @@ class ForwardZoneCrudController extends AbstractCrudController {
 		$records = $zone->resource()->getResourceRecords();
 		$responseParameters = parent::detail($context);
 		$responseParameters->set('zone', $zone);
-		$responseParameters->set('records', $this->pdnsProvider->resourceRecordsToSingleRecords($records));
+		$responseParameters->set('records', $this->pdnsProvider->resourceRecordsToSingleRecords($records, $zone->getCanonicalName()));
 
 		return $responseParameters;
 	}

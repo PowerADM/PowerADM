@@ -14,7 +14,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 #[AsCommand(name: 'padm:user:create', description: 'Create a user.')]
-final class CreateUserCommand extends Command {
+class CreateUserCommand extends Command {
 	public function __construct(private PasswordHasherFactoryInterface $passwordHasherFactory, private EntityManagerInterface $entityManager) {
 		parent::__construct();
 	}
@@ -50,7 +50,7 @@ final class CreateUserCommand extends Command {
 		$questions = [];
 
 		if (!$input->getArgument('username')) {
-			$question = new Question('Please choose a username:');
+			$question = new Question('Please choose a username: ');
 			$question->setValidator(function ($username) {
 				if (empty($username)) {
 					throw new \Exception('Username can not be empty');
@@ -62,7 +62,7 @@ final class CreateUserCommand extends Command {
 		}
 
 		if (!$input->getArgument('password')) {
-			$question = new Question('Please choose a password:');
+			$question = new Question('Please choose a password: ');
 			$question->setValidator(function ($password) {
 				if (empty($password)) {
 					throw new \Exception('Password can not be empty');

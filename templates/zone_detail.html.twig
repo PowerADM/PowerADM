@@ -3,27 +3,30 @@
 {% block main %}
     {{ parent() }}
 	<twig:Turbo:Frame class="zone-editor" data-controller="zone-editor" id="records" data-zone="{{ zone.getCanonicalName() }}">
-		<h2 style="float: left;">Records</h2>
-		<button class="btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#newRecordModal">Add Record</button>
-		<table class="table table-bordered table-striped">
+
+		<div class="content-header-title">
+			<h2 class="title" style="float: left;">Records</h2>
+			<button class="btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#newRecordModal">Add Record</button>
+		</div>
+		<table class="table datagrid">
 			<thead>
 				<tr>
-					<th>Name</th>
-					<th>TTL</th>
-					<th>Type</th>
-					<th>Content</th>
-					<th>Actions</th>
+					<th><span>Name</span></th>
+					<th><span>TTL</span></th>
+					<th><span>Type</span></th>
+					<th><span>Content</span></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for record in records %}
 					{% if record.type != 'SOA' %}
 						<tr>
-							<td>{{ record.name }}</td>
+							<td>{{ record.displayName }}</td>
 							<td>{{ record.ttl }}</td>
 							<td>{{ record.type }}</td>
 							<td style="word-break: break-word;">{{ record.content }}</td>
-							<td>
+							<td class="actions">
 								<a href="#" class="action-detail" data-bs-toggle="modal" data-bs-target="#editRecordModal" data-action="zone-editor#editRecord" data-record="{{ record|json_encode }}">Edit</a>
 								<a href="#" class=" action-delete text-danger" data-action="zone-editor#deleteRecord" data-record="{{ record|json_encode }}">Delete</a>
 							</td>

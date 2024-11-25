@@ -74,12 +74,13 @@ export default class extends Controller {
 		event.preventDefault();
 		let targetElement = event.target;
 		let record = JSON.parse(targetElement.dataset.record);
+		let zone = targetElement.closest('.zone-editor').dataset.zone;
 		let modal = targetElement.dataset.bsTarget;
 		let form = document.querySelector(modal).querySelector('form');
 		form.dataset.record = JSON.stringify(record);
 		form.querySelector('select[name="type"]').value = record.type;
 		form.querySelector('select[name="type"]').dispatchEvent(new Event('change'));
-		form.querySelector('input[name="name"]').value = record.name;
+		form.querySelector('input[name="name"]').value = record.displayName;
 		form.querySelector('input[name="ttl"]').value = record.ttl;
 		switch(record.type) {
 			case 'A':

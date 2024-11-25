@@ -2,9 +2,12 @@
 
 namespace PowerADM\Controller;
 
+use Drenso\OidcBundle\OidcClientInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController {
@@ -24,6 +27,12 @@ class SecurityController extends AbstractController {
 			'sign_in_label' => 'Log in',
 			'remember_me_enabled' => true,
 		]);
+	}
+
+	#[Route('/login_oidc', name: 'login_oidc')]
+	#[IsGranted('PUBLIC_ACCESS')]
+	public function oidcLogin(OidcClientInterface $oidcClient): RedirectResponse {
+		return $oidcClient->generateAuthorizationRedirect();
 	}
 
 	#[Route(path: '/logout', name: 'logout')]

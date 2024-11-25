@@ -1,13 +1,17 @@
 security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             pattern: ^/
+            provider: user_provider
+            oidc:
+                check_path: /login
+                user_identifier_property: sub
+            entry_point: form_login
             form_login:
                 login_path: login
                 check_path: login
@@ -18,14 +22,12 @@ security:
                 # target: app_any_route
     access_control:
         - { path: ^/login$, role: PUBLIC_ACCESS }
+        - { path: ^/login_oidc$, role: PUBLIC_ACCESS }
         - { path: ^/, role: ROLE_USER }
 
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: PowerADM\Entity\User
-                property: username
+        user_provider:
+            id: PowerADM\Security\UserProvider
 
 when@test:
     security:
