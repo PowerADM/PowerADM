@@ -4,3 +4,10 @@
 	--sidebar-menu-active-item-bg: rgba(230, 110, 0, 0.1);
 	--dropdown-settings-active-item-bg: var(--sidebar-menu-active-item-bg);
 }
+
+.dropdown-settings{
+	margin-inline: 8px;
+}
+.dropdown-settings .dropdown-settings-button{
+	padding-inline: 8px;
+}

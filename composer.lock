@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be395ff485f098eeb5b5b85bb1a03549",
+    "content-hash": "13180542182bec672861620668cec3fa",
     "packages": [
         {
             "name": "composer/semver",
@@ -8231,86 +8231,6 @@
                 }
             ],
             "time": "2024-09-25T14:20:29+00:00"
-        },
-        {
-            "name": "symfony/ux-chartjs",
-            "version": "v2.21.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-chartjs.git",
-                "reference": "70ff570d96812487c523afd5756df671ec5c5cee"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/70ff570d96812487c523afd5756df671ec5c5cee",
-                "reference": "70ff570d96812487c523afd5756df671ec5c5cee",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1",
-                "symfony/config": "^5.4|^6.0|^7.0",
-                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
-                "symfony/http-kernel": "^5.4|^6.0|^7.0",
-                "symfony/stimulus-bundle": "^2.9.1"
-            },
-            "conflict": {
-                "symfony/flex": "<1.13"
-            },
-            "require-dev": {
-                "symfony/framework-bundle": "^5.4|^6.0|^7.0",
-                "symfony/phpunit-bridge": "^5.4|^6.0|^7.0",
-                "symfony/twig-bundle": "^5.4|^6.0|^7.0",
-                "symfony/var-dumper": "^5.4|^6.0|^7.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "thanks": {
-                    "name": "symfony/ux",
-                    "url": "https://github.com/symfony/ux"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\UX\\Chartjs\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Titouan Galopin",
-                    "email": "galopintitouan@gmail.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Chart.js integration for Symfony",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "symfony-ux"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/ux-chartjs/tree/v2.21.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-10-15T10:36:49+00:00"
         },
         {
             "name": "symfony/ux-turbo",

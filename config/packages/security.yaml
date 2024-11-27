@@ -1,6 +1,8 @@
 security:
+
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -20,6 +22,7 @@ security:
                 path: logout
                 # where to redirect after logout
                 # target: app_any_route
+
     access_control:
         - { path: ^/login$, role: PUBLIC_ACCESS }
         - { path: ^/login_oidc$, role: PUBLIC_ACCESS }
@@ -28,6 +31,11 @@ security:
     providers:
         user_provider:
             id: PowerADM\Security\UserProvider
+
+    role_hierarchy:
+        ROLE_EDITOR:      ROLE_USER
+        ROLE_ADMIN:       ROLE_EDITOR
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
 when@test:
     security:

@@ -2,6 +2,7 @@
 
 namespace PowerADM\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PowerADM\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -23,6 +24,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
 	#[ORM\Column(nullable: true)]
 	private ?string $password = null;
+
+	#[ORM\Column(type: Types::JSON, nullable: true)]
+	private ?array $allowed_zones = null;
+
+	#[ORM\Column(nullable: true)]
+	private ?array $allowed_forward_zones = null;
+
+	#[ORM\Column(nullable: true)]
+	private ?array $allowed_reverse_zones = null;
 
 	public function getId(): ?int {
 		return $this->id;
@@ -66,5 +76,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	}
 
 	public function eraseCredentials(): void {
+	}
+
+	public function getAllowedForwardZones(): ?array {
+		return $this->allowed_forward_zones;
+	}
+
+	public function setAllowedForwardZones(?array $allowed_forward_zones): static {
+		$this->allowed_forward_zones = $allowed_forward_zones;
+
+		return $this;
+	}
+
+	public function getAllowedReverseZones(): ?array {
+		return $this->allowed_reverse_zones;
+	}
+
+	public function setAllowedReverseZones(?array $allowed_reverse_zones): static {
+		$this->allowed_reverse_zones = $allowed_reverse_zones;
+
+		return $this;
 	}
 }

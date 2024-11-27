@@ -2,15 +2,16 @@
 
 namespace PowerADM\Controller;
 
-use Exonet\Powerdns\Resources\Record;
 use PowerADM\Provider\PDNSProvider;
+use PowerADM\Repository\ForwardZoneRepository;
+use PowerADM\Repository\ReverseZoneRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ModifyRecordController extends AbstractController {
-	public function __construct(private PDNSProvider $pdnsProvider, private RequestStack $requestStack) {
+	public function __construct(private PDNSProvider $pdnsProvider, private RequestStack $requestStack, private ForwardZoneRepository $forwardZoneRepository, private ReverseZoneRepository $reverseZoneRepository) {
 	}
 
 	#[Route('/api/modify-record', name: 'modify_record', methods: ['PUT'])]
@@ -19,24 +20,16 @@ class ModifyRecordController extends AbstractController {
 			throw $this->createAccessDeniedException();
 		}
 
-		$request = $this->requestStack->getCurrentRequest();
-		$body = json_decode($request->getContent(), true);
-		[$zone, $name, $type] = [$body['zone'], $body['record']['name'], $body['record']['type']];
-		$pdnsZone = $this->pdnsProvider->get()->zone($zone);
-		$records = $pdnsZone->find($name, $type);
+		try {
+			$request = $this->requestStack->getCurrentRequest();
+			$body = json_decode($request->getContent(), true);
+			$zone = $this->getZone($body);
+			$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
 
-		$result = $records[0];
-		$rrs = $result->getRecords();
-		$rrs = array_map(function ($rr) use ($body) {
-			if ($rr->getContent() === $body['old_record']['content']) {
-				$rr->setContent($body['record']['content']);
-			}
-
-			return $rr;
-		}, $rrs);
-		$result->setTtl($body['record']['ttl']);
-		$result->setRecords($rrs);
-		$result->save();
+			$this->pdnsProvider->updateRecord($pdnsZone, $body['old_record'], $body['record']);
+		} catch (\Exception $e) {
+			return new Response($e->getMessage(), 500);
+		}
 
 		return new Response();
 	}
@@ -47,20 +40,15 @@ class ModifyRecordController extends AbstractController {
 			throw $this->createAccessDeniedException();
 		}
 
-		$request = $this->requestStack->getCurrentRequest();
-		$body = json_decode($request->getContent(), true);
-		[$zone, $name, $type] = [$body['zone'], $body['record']['name'], $body['record']['type']];
-		$pdnsZone = $this->pdnsProvider->get()->zone($zone);
-		$records = $pdnsZone->find($name, $type);
+		try {
+			$request = $this->requestStack->getCurrentRequest();
+			$body = json_decode($request->getContent(), true);
+			$zone = $this->getZone($body);
+			$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
 
-		if (isset($records[0]) === false) {
-			$pdnsZone->create($name, $type, $body['record']['content'], $body['record']['ttl']);
-		} else {
-			$result = $records[0];
-			$rrs = $result->getRecords();
-			$rrs[] = new Record($body['record']['content']);
-			$result->setRecords($rrs);
-			$result->save();
+			$this->pdnsProvider->createRecord($pdnsZone, $body['record']);
+		} catch (\Exception $e) {
+			return new Response($e->getMessage(), 500);
 		}
 
 		return new Response();
@@ -72,24 +60,38 @@ class ModifyRecordController extends AbstractController {
 			throw $this->createAccessDeniedException();
 		}
 
-		$request = $this->requestStack->getCurrentRequest();
-		$body = json_decode($request->getContent(), true);
-		[$zone, $name, $type] = [$body['zone'], $body['record']['name'], $body['record']['type']];
+		try {
+			$request = $this->requestStack->getCurrentRequest();
+			$body = json_decode($request->getContent(), true);
+			$zone = $this->getZone($body);
+			$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
 
-		$records = $this->pdnsProvider->get()->zone($zone)->find($name, $type);
-		$result = $records[0];
-
-		if (\count($result->getRecords()) > 1) {
-			$rrs = $result->getRecords();
-			$rrs = array_filter($rrs, function ($rr) use ($body) {
-				return $rr->getContent() !== $body['record']['content'];
-			});
-			$result->setRecords($rrs);
-			$result->save();
-		} else {
-			$records->delete();
+			$this->pdnsProvider->deleteRecord($pdnsZone, $body['record']);
+		} catch (\Exception $e) {
+			return new Response($e->getMessage(), 500);
 		}
 
 		return new Response();
+	}
+
+	public function getZone($body): object {
+		$zone = null;
+		if ($body['zoneType'] === 'forward') {
+			$permission = 'FORWARD_ZONE_EDIT';
+			$zone = $this->forwardZoneRepository->find($body['zone']);
+		} elseif ($body['zoneType'] === 'reverse') {
+			$permission = 'REVERSE_ZONE_EDIT';
+			$zone = $this->reverseZoneRepository->find($body['zone']);
+		}
+
+		if ($zone === null) {
+			throw new \Exception('Zone not found');
+		}
+
+		if (!$this->isGranted($permission, $zone)) {
+			throw $this->createAccessDeniedException();
+		}
+
+		return $zone;
 	}
 }

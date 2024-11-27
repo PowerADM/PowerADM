@@ -20,6 +20,7 @@ class TemplateCrudController extends AbstractCrudController {
 				->setSearchFields(['name', 'description'])
 				->renderContentMaximized()
 				->showEntityActionsInlined(true)
+				->setEntityPermission('ROLE_ADMIN')
 		;
 	}
 

@@ -20,6 +20,7 @@ class UserCrudController extends AbstractCrudController {
 				->setSearchFields(['username'])
 				->renderContentMaximized()
 				->showEntityActionsInlined(true)
+				->setEntityPermission('ROLE_ADMIN')
 		;
 	}
 

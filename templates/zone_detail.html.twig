@@ -2,7 +2,7 @@
 
 {% block main %}
     {{ parent() }}
-	<twig:Turbo:Frame class="zone-editor" data-controller="zone-editor" id="records" data-zone="{{ zone.getCanonicalName() }}">
+	<twig:Turbo:Frame class="zone-editor" data-controller="zone-editor" id="records" data-zone="{{ zone }}" data-zone-type="{{ zoneType }}">
 
 		<div class="content-header-title">
 			<h2 class="title" style="float: left;">Records</h2>
@@ -15,6 +15,7 @@
 					<th><span>TTL</span></th>
 					<th><span>Type</span></th>
 					<th><span>Content</span></th>
+					<th><span>Comment</span></th>
 					<th></th>
 				</tr>
 			</thead>
@@ -26,7 +27,8 @@
 							<td>{{ record.ttl }}</td>
 							<td>{{ record.type }}</td>
 							<td style="word-break: break-word;">{{ record.content }}</td>
-							<td class="actions">
+							<td>{{ record.comment }}</td>
+							<td class="actions" style="white-space: nowrap;">
 								<a href="#" class="action-detail" data-bs-toggle="modal" data-bs-target="#editRecordModal" data-action="zone-editor#editRecord" data-record="{{ record|json_encode }}">Edit</a>
 								<a href="#" class=" action-delete text-danger" data-action="zone-editor#deleteRecord" data-record="{{ record|json_encode }}">Delete</a>
 							</td>

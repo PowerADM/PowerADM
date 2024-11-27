@@ -1,81 +1,75 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
+
+	getZone(){
+		return this.element.dataset.zone;
+	}
+
+	getZoneType(){
+		return this.element.dataset.zoneType;
+	}
+
 	addRecord(event) {
 		event.preventDefault();
-		let form = event.target;
-		let zone = form.closest('.zone-editor').dataset.zone;
-		let data = new FormData(form);
-		let { type, name, ttl, target, priority, weight, port, content, algo, class: klass } = Object.fromEntries(data.entries());
-
-		let recordContent = "";
-		switch (type) {
-			case 'A':
-			case 'AAAA':
-			case 'ALIAS':
-			case 'CNAME':
-			case 'NS':
-				recordContent = target;
-				break;
-			case 'MX':
-				recordContent = `${priority} ${target}`;
-				break;
-			case 'SRV':
-				recordContent = `${priority} ${weight} ${port} ${target}`;
-				break;
-			case 'SSHFP':
-				recordContent = `${klass} ${algo} ${content}`;
-				break;
-			case 'OPENPGPKEY':
-			case 'TXT':
-				recordContent = content;
-		}
+		let data = new FormData(event.target);
 
 		let body = {
-			zone: zone,
-			record: {
-				type: type,
-				name: name,
-				ttl: ttl,
-				content: recordContent
-			}
+			zone: this.getZone(),
+			zoneType: this.getZoneType(),
+			record: this.prepareRecord(data)
 		}
-		fetch('/api/modify-record', {
-			method: 'POST',
-			body: JSON.stringify(body),
-		}).then(response => {
-			if (response.ok) {
-				window.location.reload();
-			}
-		});
+
+		this.sendRequest('/api/modify-record', 'POST', body);
 	}
 
 	deleteRecord(event) {
 		event.preventDefault();
-		let target = event.target;
-		let record = target.dataset.record;
-		let zone = target.closest('.zone-editor').dataset.zone;
+		let record = event.target.dataset.record;
 
 		let body = {
-			zone: zone,
+			zone: this.getZone(),
+			zoneType: this.getZoneType(),
 			record: JSON.parse(record)
 		}
-		fetch('/api/modify-record', {
-			method: 'DELETE',
+
+		this.sendRequest('/api/modify-record', 'DELETE', body);
+	}
+
+	updateRecord(event) {
+		event.preventDefault();
+		let form = event.target;
+		let data = new FormData(form);
+		let record = JSON.parse(form.dataset.record);
+
+		let body = {
+			zone: this.getZone(),
+			zoneType: this.getZoneType(),
+			record: this.prepareRecord(data),
+			old_record: record
+		}
+
+		this.sendRequest('/api/modify-record', 'PUT', body);
+	}
+
+	sendRequest(url, method, body) {
+		fetch(url, {
+			method: method,
 			body: JSON.stringify(body),
-		}).then(response => {
+		}).then(async response => {
 			if (response.ok) {
 				window.location.reload();
+			}else{
+				alert(await response.text());
 			}
 		});
 	}
 
 	editRecord(event) {
 		event.preventDefault();
-		let targetElement = event.target;
-		let record = JSON.parse(targetElement.dataset.record);
-		let zone = targetElement.closest('.zone-editor').dataset.zone;
-		let modal = targetElement.dataset.bsTarget;
+		let target = event.target;
+		let record = JSON.parse(target.dataset.record);
+		let modal = target.dataset.bsTarget;
 		let form = document.querySelector(modal).querySelector('form');
 		form.dataset.record = JSON.stringify(record);
 		form.querySelector('select[name="type"]').value = record.type;
@@ -88,6 +82,7 @@ export default class extends Controller {
 			case 'ALIAS':
 			case 'CNAME':
 			case 'NS':
+			case 'PTR':
 				form.querySelector('input[name="target"]').value = record.content;
 				break;
 			case 'CAA':
@@ -127,12 +122,8 @@ export default class extends Controller {
 		}
 	}
 
-	updateRecord(event) {
-		event.preventDefault();
-		let form = event.target;
-		let zone = form.closest('.zone-editor').dataset.zone;
-		let data = new FormData(form);
-		let { type, name, ttl, target, priority, weight, port, content, algo, class: klass } = Object.fromEntries(data.entries());
+	prepareRecord(data){
+		let { type, name, ttl, target, flag, tag, priority, weight, port, content, algo, class: klass } = Object.fromEntries(data.entries());
 
 		let recordContent = "";
 		switch (type) {
@@ -141,7 +132,11 @@ export default class extends Controller {
 			case 'ALIAS':
 			case 'CNAME':
 			case 'NS':
+			case 'PTR':
 				recordContent = target;
+				break;
+			case 'CAA':
+				recordContent = `${flag} ${tag} "${content}"`;
 				break;
 			case 'MX':
 				recordContent = `${priority} ${target}`;
@@ -154,28 +149,16 @@ export default class extends Controller {
 				break;
 			case 'OPENPGPKEY':
 			case 'TXT':
-				recordContent = content;
+				recordContent = `"${content}"`;
 		}
 
-		let record = JSON.parse(form.dataset.record);
-		let body = {
-			zone: zone,
-			record: {
-				type: type,
-				name: name,
-				ttl: ttl,
-				content: recordContent
-			},
-			old_record: record
+		let record = {
+			type: type,
+			name: name,
+			ttl: ttl,
+			content: recordContent
 		}
-		fetch('/api/modify-record', {
-			method: 'PUT',
-			body: JSON.stringify(body),
-		}).then(response => {
-			if (response.ok) {
-				window.location.reload();
-			}
-		});
+		return record;
 	}
 
 	changeType(event) {

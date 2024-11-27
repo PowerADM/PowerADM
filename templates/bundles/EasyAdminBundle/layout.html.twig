@@ -118,7 +118,7 @@
             {% if ea.dashboardLocales or ea.dashboardHasDarkModeEnabled %}
                 <div class="dropdown dropdown-settings">
                     <a class="dropdown-settings-button" type="button" data-bs-toggle="dropdown" data-bs-offset="0,5" aria-expanded="false">
-                        <i class="fas fa-gear"></i>
+                        <i class="fas fa-lightbulb"></i>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -187,6 +187,8 @@
                             {% endblock responsive_header_logo %}
                         </div>
 
+                        {{ settings_dropdown }}
+
                         <div class="dropdown user-menu-wrapper {{ is_granted(impersonator_permission) ? 'user-is-impersonated' }} ms-auto">
                             <a class="user-details" type="button" data-bs-toggle="dropdown" data-bs-offset="0,5" aria-expanded="false">
                                 {# to make the site design consistent, always display the user avatar in responsive header
@@ -201,7 +203,6 @@
                             {{ user_menu_dropdown }}
                         </div>
 
-                        {{ settings_dropdown }}
                     {% endblock responsive_header %}
                 </div>
 
@@ -306,6 +307,10 @@
                             </div>
                             {% endblock search_wrapper %}
 
+							{% block settings_dropdown_wrapper %}
+								{{ settings_dropdown }}
+							{% endblock settings_dropdown_wrapper %}
+
                             {% block header_custom_menu_wrapper %}
                             <div class="navbar-custom-menu">
                                 {% block header_custom_menu %}
@@ -322,10 +327,6 @@
                                 {% endblock header_custom_menu %}
                             </div>
                             {% endblock header_custom_menu_wrapper %}
-
-                            {% block settings_dropdown_wrapper %}
-                                {{ settings_dropdown }}
-                            {% endblock settings_dropdown_wrapper %}
                         {% endblock content_top_header %}
                     </aside>
 

@@ -1,5 +1,20 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block main %}
-	{{ parent() }}
+	<div class="tiles">
+		<div class="tile">
+			<div class="title">{{ forwardZoneCount }}</div>
+			Forward Zones
+		</div>
+		<div class="tile">
+			<div class="title">{{ reverseZoneCount }}</div>
+			Reverse Zones
+		</div>
+	</div>
+	<div class="config">
+		{% include 'pdns_config.html.twig' %}
+	</div>
+	<div class="stats">
+		{% include 'pdns_stats.html.twig' %}
+	</div>
 {% endblock main %}

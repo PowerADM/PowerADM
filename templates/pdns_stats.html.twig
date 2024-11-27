@@ -1,0 +1,33 @@
+<div class="content-header-title">
+	<h2 class="title">Statistics</h2>
+</div>
+<table class="table datagrid">
+	<thead>
+		<tr>
+			<th><span>Statistic</span></th>
+			<th></th>
+			<th><span>Value</span></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for stat in serverStatistics %}
+			{% if stat.type == 'StatisticItem' %}
+				<tr>
+					<td>{{ stat.name }}</td>
+					<td></td>
+					<td>{{ stat.value }}</td>
+				</tr>
+			{% elseif stat.type == 'MapStatisticItem' %}
+				<tr>
+					<td rowspan="{{ stat.value|length + 1 }}">{{ stat.name }}</td>
+				</tr>
+				{% for item in stat.value %}
+					<tr>
+						<td>{{ item.name }}</td>
+						<td>{{ item.value }}</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+	</tbody>
+</table>

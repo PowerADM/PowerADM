@@ -1,0 +1,19 @@
+<div class="content-header-title">
+	<h2 class="title">Server configuration</h2>
+</div>
+<table class="table datagrid">
+	<thead>
+		<tr>
+			<th><span>Key</span></th>
+			<th><span>Value</span></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in configuration %}
+			<tr>
+				<td>{{ item.name }}</td>
+				<td>{{ item.value }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
