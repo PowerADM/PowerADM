@@ -41,6 +41,7 @@ class ReverseZoneCrudController extends AbstractZoneCrudController {
 		$responseParameters = parent::detail($context);
 		$responseParameters->set('zone', $zone->getId());
 		$responseParameters->set('zoneType', 'reverse');
+		$responseParameters->set('zoneTypes', explode(',', $this->getParameter('reverse_record_types')));
 		$responseParameters->set('records', $this->pdnsProvider->resourceRecordsToSingleRecords($records, $pdnsZone->getCanonicalName()));
 
 		return $responseParameters;

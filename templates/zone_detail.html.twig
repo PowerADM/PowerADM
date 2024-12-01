@@ -37,39 +37,10 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<div class="modal fade" id="newRecordModal" tabindex="-1" role="dialog" aria-labelledby="newRecordModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="newRecordModalLabel">Add Record</h5>
-					</div>
-					<div class="modal-body">
-						{% set data = { id: 'addForm', action: 'zone-editor#addRecord' } %}
-						{% include 'forms/record.twig' with data %}
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" form="addForm">Create</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="editRecordModal" tabindex="-1" role="dialog" aria-labelledby="editRecordModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="editRecordModalLabel">Edit Record</h5>
-					</div>
-					<div class="modal-body">
-						{% set data = { id: 'editForm', action: 'zone-editor#updateRecord' } %}
-						{% include 'forms/record.twig' with data %}
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" form="editForm">Save</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		{% set data = { identifier: 'newRecordModal', action: 'zone-editor#addRecord' } %}
+		{% include 'forms/record_modal.html.twig' with data %}
+
+		{% set data = { identifier: 'editRecordModal', action: 'zone-editor#updateRecord' } %}
+		{% include 'forms/record_modal.html.twig' with data %}
 	</twig:Turbo:Frame>
 {% endblock %}

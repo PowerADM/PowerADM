@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exonet\Powerdns\Connector;
 use Exonet\Powerdns\Powerdns;
 use Exonet\Powerdns\Resources\Record;
+use Exonet\Powerdns\Zone;
 use PowerADM\Entity\ForwardZone;
 use PowerADM\Entity\ReverseZone;
 use PowerADM\Repository\ForwardZoneRepository;
@@ -66,7 +67,7 @@ class PDNSProvider {
 		return $records;
 	}
 
-	public function syncZoneFromPDNS($zone): void {
+	public function syncZoneFromPDNS(ForwardZone|ReverseZone $zone): void {
 		$pdnsZone = $this->pdns->zone($zone->getName());
 		$resource = $pdnsZone->resource();
 		$zone->setType($resource->getKind());
@@ -112,7 +113,7 @@ class PDNSProvider {
 		$this->entityManager->flush();
 	}
 
-	public function createRecord($zone, $record): void {
+	public function createRecord(Zone $zone, array $record): void {
 		$records = $zone->find($record['name'], $record['type']);
 
 		if (isset($records[0]) === false) {
@@ -126,7 +127,7 @@ class PDNSProvider {
 		}
 	}
 
-	public function deleteRecord($zone, $record): void {
+	public function deleteRecord(Zone $zone, array $record): void {
 		$records = $zone->find($record['name'], $record['type']);
 		$result = $records[0];
 
@@ -142,7 +143,7 @@ class PDNSProvider {
 		}
 	}
 
-	public function updateRecord($zone, $oldRecord, $newRecord): void {
+	public function updateRecord(Zone $zone, array $oldRecord, array $newRecord): void {
 		if ($oldRecord['name'] != $newRecord['name'] || $oldRecord['type'] != $newRecord['type']) {
 			$this->deleteRecord($zone, $oldRecord);
 			$this->createRecord($zone, $newRecord);

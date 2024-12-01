@@ -74,14 +74,15 @@ class ModifyRecordController extends AbstractController {
 		return new Response();
 	}
 
-	public function getZone($body): object {
-		$zone = null;
+	public function getZone(array $body): object {
 		if ($body['zoneType'] === 'forward') {
 			$permission = 'FORWARD_ZONE_EDIT';
 			$zone = $this->forwardZoneRepository->find($body['zone']);
 		} elseif ($body['zoneType'] === 'reverse') {
 			$permission = 'REVERSE_ZONE_EDIT';
 			$zone = $this->reverseZoneRepository->find($body['zone']);
+		} else {
+			throw new \Exception('Invalid zone type');
 		}
 
 		if ($zone === null) {

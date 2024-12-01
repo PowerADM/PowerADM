@@ -41,6 +41,7 @@ class ForwardZoneCrudController extends AbstractZoneCrudController {
 		$responseParameters = parent::detail($context);
 		$responseParameters->set('zone', $zone->getId());
 		$responseParameters->set('zoneType', 'forward');
+		$responseParameters->set('zoneTypes', explode(',', $this->getParameter('forward_record_types')));
 		$responseParameters->set('records', $this->pdnsProvider->resourceRecordsToSingleRecords($records, $pdnsZone->getCanonicalName()));
 
 		return $responseParameters;

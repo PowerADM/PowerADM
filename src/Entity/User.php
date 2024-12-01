@@ -2,7 +2,6 @@
 
 namespace PowerADM\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PowerADM\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -10,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface {
+class User implements UserInterface, PasswordAuthenticatedUserInterface, ArrayExpressible {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
@@ -20,19 +19,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	private ?string $username = null;
 
 	#[ORM\Column]
-	private array $roles = [];
+	private string $role = 'ROLE_USER';
 
 	#[ORM\Column(nullable: true)]
 	private ?string $password = null;
-
-	#[ORM\Column(type: Types::JSON, nullable: true)]
-	private ?array $allowed_zones = null;
 
 	#[ORM\Column(nullable: true)]
 	private ?array $allowed_forward_zones = null;
 
 	#[ORM\Column(nullable: true)]
 	private ?array $allowed_reverse_zones = null;
+
+	#[ORM\Column(length: 255, nullable: true)]
+	private ?string $fullname = null;
 
 	public function getId(): ?int {
 		return $this->id;
@@ -53,14 +52,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	}
 
 	public function getRoles(): array {
-		$roles = $this->roles;
-		$roles[] = 'ROLE_USER';
-
-		return array_unique($roles);
+		return [$this->getRole()];
 	}
 
-	public function setRoles(array $roles): static {
-		$this->roles = $roles;
+	public function getRole(): string {
+		return $this->role ?: 'ROLE_USER';
+	}
+
+	public function setRole(string $role): static {
+		if (\in_array($role, ['ROLE_ADMIN', 'ROLE_EDITOR', 'ROLE_USER'])) {
+			$this->role = $role;
+		}
 
 		return $this;
 	}
@@ -78,8 +80,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	public function eraseCredentials(): void {
 	}
 
-	public function getAllowedForwardZones(): ?array {
-		return $this->allowed_forward_zones;
+	public function getAllowedForwardZones(): array {
+		return $this->allowed_forward_zones ?? [];
 	}
 
 	public function setAllowedForwardZones(?array $allowed_forward_zones): static {
@@ -88,13 +90,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		return $this;
 	}
 
-	public function getAllowedReverseZones(): ?array {
-		return $this->allowed_reverse_zones;
+	public function getAllowedReverseZones(): array {
+		return $this->allowed_reverse_zones ?? [];
 	}
 
 	public function setAllowedReverseZones(?array $allowed_reverse_zones): static {
 		$this->allowed_reverse_zones = $allowed_reverse_zones;
 
 		return $this;
+	}
+
+	public function getFullname(): ?string {
+		return $this->fullname;
+	}
+
+	public function setFullname(?string $fullname): static {
+		$this->fullname = $fullname;
+
+		return $this;
+	}
+
+	public function toArray() {
+		return get_object_vars($this);
 	}
 }

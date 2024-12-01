@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PowerADM\Repository\ForwardZoneRepository;
 
 #[ORM\Entity(repositoryClass: ForwardZoneRepository::class)]
-class ForwardZone {
+class ForwardZone implements ArrayExpressible {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
@@ -53,5 +53,9 @@ class ForwardZone {
 		$this->serial = $serial;
 
 		return $this;
+	}
+
+	public function toArray(): array {
+		return get_object_vars($this);
 	}
 }

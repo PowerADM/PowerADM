@@ -18,8 +18,6 @@ abstract class AbstractZoneCrudController extends AbstractCrudController {
 		$this->pdns = $pdnsProvider->get();
 	}
 
-	abstract public static function getEntityFqcn(): string;
-
 	public function configureActions(Actions $actions): Actions {
 		$actions = $actions
 					->disable(Action::EDIT)
@@ -45,7 +43,7 @@ abstract class AbstractZoneCrudController extends AbstractCrudController {
 		;
 	}
 
-	public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void {
+	public function persistEntity(EntityManagerInterface $entityManager, mixed $entityInstance): void {
 		$zone = $this->pdns->createZone($entityInstance->getName(), []);
 		$zone->resource()->setKind($entityInstance->getType());
 		$entityInstance->setSerial($zone->resource()->getSerial());
@@ -55,7 +53,7 @@ abstract class AbstractZoneCrudController extends AbstractCrudController {
 		$this->addFlash('success', 'Zone created successfully');
 	}
 
-	public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void {
+	public function deleteEntity(EntityManagerInterface $entityManager, mixed $entityInstance): void {
 		try {
 			$this->pdns->deleteZone($entityInstance->getName());
 		} catch (\Exception $e) {

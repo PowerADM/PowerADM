@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PowerADM\Repository\TemplateRepository;
 
 #[ORM\Entity(repositoryClass: TemplateRepository::class)]
-class Template {
+class Template implements ArrayExpressible {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
@@ -54,5 +54,9 @@ class Template {
 		$this->records = $records;
 
 		return $this;
+	}
+
+	public function toArray(): array {
+		return get_object_vars($this);
 	}
 }

@@ -16,7 +16,8 @@ final class ForwardZoneVoter extends Voter {
 
 	protected function supports(string $attribute, mixed $subject): bool {
 		return \in_array($attribute, [self::EDIT])
-			&& $subject instanceof ForwardZone;
+			&& $subject instanceof ForwardZone
+			|| $subject == null;
 	}
 
 	protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool {
@@ -28,6 +29,9 @@ final class ForwardZoneVoter extends Voter {
 		switch ($attribute) {
 			case self::EDIT:
 				if ($this->security->isGranted('ROLE_EDITOR')) {
+					return true;
+				}
+				if ($subject === null) {
 					return true;
 				}
 				if (\in_array($subject->getId(), $user->getAllowedForwardZones())) {

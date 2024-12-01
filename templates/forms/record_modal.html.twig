@@ -1,0 +1,17 @@
+<div class="modal fade" id="{{ identifier }}" tabindex="-1" role="dialog" aria-labelledby="{{ identifier }}Label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="{{ identifier }}Label">Add Record</h5>
+			</div>
+			<div class="modal-body">
+				{% set data = { id: ( identifier ~ 'Form' ), action: action } %}
+				{% include 'forms/record.html.twig' with data %}
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" form="{{ identifier }}Form">Create</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -5,6 +5,7 @@ namespace PowerADM\Controller;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use PowerADM\Entity\ForwardZone;
 use PowerADM\Entity\ReverseZone;
@@ -13,26 +14,36 @@ use PowerADM\Entity\User;
 use PowerADM\Provider\PDNSProvider;
 use PowerADM\Repository\ForwardZoneRepository;
 use PowerADM\Repository\ReverseZoneRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class DashboardController extends AbstractDashboardController {
-	public function __construct(private ForwardZoneRepository $forwardZoneRepository, private ReverseZoneRepository $reverseZoneRepository, private PDNSProvider $pdnsProvider) {
+	public function __construct(private ForwardZoneRepository $forwardZoneRepository, private ReverseZoneRepository $reverseZoneRepository, private PDNSProvider $pdnsProvider, private RequestStack $requestStack) {
 	}
 
 	#[Route('/', name: 'padm')]
 	public function index(): Response {
 		$forwardZoneCount = $this->forwardZoneRepository->count([]);
 		$reverseZoneCount = $this->reverseZoneRepository->count([]);
-		$serverStatistics = $this->pdnsProvider->get()->statistics();
-		$configuration = $this->pdnsProvider->getConnector()->get('config');
 
 		return $this->render(
 			'dashboard.html.twig',
 			[
 				'forwardZoneCount' => $forwardZoneCount,
 				'reverseZoneCount' => $reverseZoneCount,
-				'serverStatistics' => $serverStatistics,
+			]
+		);
+	}
+
+	#[Route('/configuration', name: 'padm_configuration')]
+	public function configuration(): Response {
+		$this->requestStack->getCurrentRequest()->attributes->set(EA::ROUTE_CREATED_BY_EASYADMIN, true);
+		$configuration = $this->pdnsProvider->getConnector()->get('config');
+
+		return $this->render(
+			'pdns_config.html.twig',
+			[
 				'configuration' => $configuration,
 			]
 		);
@@ -40,18 +51,13 @@ class DashboardController extends AbstractDashboardController {
 
 	#[Route('/statistics', name: 'padm_statistics')]
 	public function statistics(): Response {
-		$forwardZoneCount = $this->forwardZoneRepository->count([]);
-		$reverseZoneCount = $this->reverseZoneRepository->count([]);
+		$this->requestStack->getCurrentRequest()->attributes->set(EA::ROUTE_CREATED_BY_EASYADMIN, true);
 		$serverStatistics = $this->pdnsProvider->get()->statistics();
-		$configuration = $this->pdnsProvider->getConnector()->get('config');
 
 		return $this->render(
-			'dashboard.html.twig',
+			'pdns_stats.html.twig',
 			[
-				'forwardZoneCount' => $forwardZoneCount,
-				'reverseZoneCount' => $reverseZoneCount,
 				'serverStatistics' => $serverStatistics,
-				'configuration' => $configuration,
 			]
 		);
 	}
@@ -83,8 +89,6 @@ class DashboardController extends AbstractDashboardController {
 			yield MenuItem::linkToUrl('Statistics', 'fa fa-chart-simple', '/statistics');
 			yield MenuItem::linkToCrud('Templates', 'fa fa-copy', Template::class);
 			yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
-			yield MenuItem::section();
-			yield MenuItem::linkToUrl('Settings', 'fa fa-gear', '/settings');
 		}
 	}
 }

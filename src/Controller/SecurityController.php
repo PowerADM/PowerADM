@@ -32,7 +32,7 @@ class SecurityController extends AbstractController {
 	#[Route('/login_oidc', name: 'login_oidc')]
 	#[IsGranted('PUBLIC_ACCESS')]
 	public function oidcLogin(OidcClientInterface $oidcClient): RedirectResponse {
-		return $oidcClient->generateAuthorizationRedirect();
+		return $oidcClient->generateAuthorizationRedirect(scopes: ['openid', 'profile', 'email', 'groups']);
 	}
 
 	#[Route(path: '/logout', name: 'logout')]

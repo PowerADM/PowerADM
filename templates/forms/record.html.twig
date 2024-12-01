@@ -10,18 +10,15 @@
 	<div class="form-group">
 		<label for="type">Type</label>
 		<select class="form-control" id="type" name="type" required data-action="zone-editor#changeType">
-			<option value="A" selected>A</option>
-			<option value="AAAA">AAAA</option>
-			<option value="ALIAS">ALIAS</option>
-			<option value="CAA">CAA</option>
-			<option value="CNAME">CNAME</option>
-			<option value="MX">MX</option>
-			<option value="NS">NS</option>
-			<option value="OPENPGPKEY">OPENPGPKEY</option>
-			<option value="SSHFP">SSHFP</option>
-			<option value="SRV">SRV</option>
-			<option value="TLSA">TLSA</option>
-			<option value="TXT">TXT</option>
+			{% if zoneType == "forward" %}
+				{% for type in zoneTypes %}
+					<option value="{{ type }}">{{ type }}</option>
+				{% endfor %}
+			{% else %}
+				{% for type in zoneTypes %}
+					<option value="{{ type }}">{{ type }}</option>
+				{% endfor %}
+			{% endif %}
 		</select>
 	</div>
 	<div class="form-group d-none" id="fg-flag">

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PowerADM\Repository\ReverseZoneRepository;
 
 #[ORM\Entity(repositoryClass: ReverseZoneRepository::class)]
-class ReverseZone {
+class ReverseZone implements ArrayExpressible {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
@@ -53,5 +53,9 @@ class ReverseZone {
 		$this->serial = $serial;
 
 		return $this;
+	}
+
+	public function toArray(): array {
+		return get_object_vars($this);
 	}
 }
