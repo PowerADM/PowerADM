@@ -111,6 +111,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, ArrayEx
 	}
 
 	public function toArray() {
-		return get_object_vars($this);
+		$array = get_object_vars($this);
+		$array['entityType'] = 'user';
+
+		return $array;
 	}
 }

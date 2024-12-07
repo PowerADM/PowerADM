@@ -24,6 +24,12 @@ class AuditLog {
 	#[ORM\Column]
 	private array $entity = [];
 
+	#[ORM\Column(length: 32)]
+	private ?string $action = null;
+
+	#[ORM\ManyToOne]
+	private ?User $user = null;
+
 	public function getId(): ?int {
 		return $this->id;
 	}
@@ -64,6 +70,26 @@ class AuditLog {
 
 	public function setEntity(array $entity): static {
 		$this->entity = $entity;
+
+		return $this;
+	}
+
+	public function getAction(): ?string {
+		return $this->action;
+	}
+
+	public function setAction(string $action): static {
+		$this->action = $action;
+
+		return $this;
+	}
+
+	public function getUser(): ?User {
+		return $this->user;
+	}
+
+	public function setUser(?User $user): static {
+		$this->user = $user;
 
 		return $this;
 	}

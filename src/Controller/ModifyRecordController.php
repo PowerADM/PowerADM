@@ -107,6 +107,7 @@ class ModifyRecordController extends AbstractController {
 				$templateRecord = $this->templateRecordRepository->findOneBy(['id' => $body['record']['id']]);
 				$this->entityManager->remove($templateRecord);
 				$this->entityManager->flush();
+
 				return new Response();
 			}
 			$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());

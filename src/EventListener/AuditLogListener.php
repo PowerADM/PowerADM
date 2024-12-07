@@ -43,7 +43,7 @@ class AuditLogListener {
 		$entity = $args->getObject();
 		$id = $entity->getId();
 		$changeSet = $this->arrayAdapter->getItem('id'.$id)->get();
-		$this->auditLogger->log($entity, $changeSet);
+		$this->auditLogger->log($entity->toArray(), $changeSet, 'CREATE');
 	}
 
 	public function preRemove(PreRemoveEventArgs $args): void {
@@ -62,7 +62,7 @@ class AuditLogListener {
 		$entity = $args->getObject();
 		$id = $entity->getId();
 		$changeSet = $this->arrayAdapter->getItem('id'.$id)->get();
-		$this->auditLogger->log($entity, $changeSet);
+		$this->auditLogger->log($entity->toArray(), $changeSet, 'DELETE');
 	}
 
 	public function preUpdate(PreUpdateEventArgs $args): void {
@@ -81,6 +81,6 @@ class AuditLogListener {
 		$entity = $args->getObject();
 		$id = $entity->getId();
 		$changeSet = $this->arrayAdapter->getItem('id'.$id)->get();
-		$this->auditLogger->log($entity, $changeSet);
+		$this->auditLogger->log($entity->toArray(), $changeSet, 'UPDATE');
 	}
 }

@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use PowerADM\Entity\AuditLog;
 use PowerADM\Entity\ForwardZone;
 use PowerADM\Entity\ReverseZone;
 use PowerADM\Entity\Template;
@@ -71,7 +72,7 @@ class DashboardController extends AbstractDashboardController {
 
 	public function configureDashboard(): Dashboard {
 		return Dashboard::new()
-			->setTitle("<img src='/img/logo.svg' alt='PowerADM Logo' class='pe-3'>")
+			->setTitle("<img src='/img/logo.svg' alt='PowerADM Logo' class='pe-3 only-light'><img src='/img/logo-white.svg' alt='PowerADM Logo' class='pe-3 only-dark'>")
 			->setFaviconPath('img/favicon.svg')
 			->setDefaultColorScheme('auto')
 			->generateRelativeUrls(true)
@@ -85,7 +86,7 @@ class DashboardController extends AbstractDashboardController {
 		yield MenuItem::linkToCrud('Reverse Zones', 'fa fa-arrow-left', ReverseZone::class);
 		if ($this->isGranted('ROLE_ADMIN')) {
 			yield MenuItem::section();
-			yield MenuItem::linkToUrl('Audit Log', 'fa fa-file-lines', '/audit-log');
+			yield MenuItem::linkToCrud('Audit Log', 'fa fa-file-lines', AuditLog::class);
 			yield MenuItem::linkToUrl('PDNS configuration', 'fa fa-wrench', '/configuration');
 			yield MenuItem::linkToUrl('Statistics', 'fa fa-chart-simple', '/statistics');
 			yield MenuItem::linkToCrud('Templates', 'fa fa-copy', Template::class);

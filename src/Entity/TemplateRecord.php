@@ -97,6 +97,10 @@ class TemplateRecord implements ArrayExpressible {
 	}
 
 	public function toArray(): array {
-		return get_object_vars($this);
+		$array = get_object_vars($this);
+		$array['entityType'] = 'templateRecord';
+		$array['template'] = $this->template->getId();
+
+		return $array;
 	}
 }

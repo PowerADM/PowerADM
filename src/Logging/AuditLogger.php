@@ -11,13 +11,15 @@ class AuditLogger {
 	public function __construct(private EntityManagerInterface $entityManager, private Security $security) {
 	}
 
-	public function log(object $object, ?array $change): void {
+	public function log(array $entity, ?array $change, string $action): void {
 		$auditLog = new AuditLog();
-		$auditLog->setChangeSet($change ?? $object->toArray());
+		$auditLog->setAction($action);
+		$auditLog->setEntity($entity);
+		$auditLog->setChangeSet($change ?? $entity);
 		$auditLog->setCreated(new \DateTimeImmutable());
 		$user = $this->security->getUser();
 		if ($user instanceof User) {
-			$auditLog->setUserId($user->getId());
+			$auditLog->setUser($user);
 		}
 
 		$this->entityManager->persist($auditLog);

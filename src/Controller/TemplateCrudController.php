@@ -31,7 +31,7 @@ class TemplateCrudController extends AbstractCrudController {
 		$responseParameters = parent::detail($context);
 		$responseParameters->set('zone', $template->getId());
 		$responseParameters->set('zoneType', 'template');
-		$responseParameters->set('zoneTypes', explode(',', $this->getParameter('forward_record_types') . ',' . $this->getParameter('reverse_record_types')));
+		$responseParameters->set('zoneTypes', array_unique(explode(',', $this->getParameter('forward_record_types').','.$this->getParameter('reverse_record_types'))));
 		$responseParameters->set('records', $template->getTemplateRecords());
 
 		return $responseParameters;
