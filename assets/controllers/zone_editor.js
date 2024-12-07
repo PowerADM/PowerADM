@@ -74,8 +74,9 @@ export default class extends Controller {
 		form.dataset.record = JSON.stringify(record);
 		form.querySelector('select[name="type"]').value = record.type;
 		form.querySelector('select[name="type"]').dispatchEvent(new Event('change'));
-		form.querySelector('input[name="name"]').value = record.displayName;
+		form.querySelector('input[name="name"]').value = record.displayName || record.name;
 		form.querySelector('input[name="ttl"]').value = record.ttl;
+		form.querySelector('input[name="comment"]').value = record.comment;
 		switch(record.type) {
 			case 'A':
 			case 'AAAA':
@@ -126,7 +127,7 @@ export default class extends Controller {
 	}
 
 	prepareRecord(data){
-		let { type, name, ttl, target, flag, tag, priority, weight, port, content, algo, class: klass } = Object.fromEntries(data.entries());
+		let { type, name, ttl, target, flag, tag, priority, weight, port, content, algo, class: klass, comment } = Object.fromEntries(data.entries());
 
 		let recordContent = "";
 		switch (type) {
@@ -162,7 +163,8 @@ export default class extends Controller {
 			type: type,
 			name: name,
 			ttl: ttl,
-			content: recordContent
+			content: recordContent,
+			comment: comment
 		}
 		return record;
 	}
@@ -174,6 +176,7 @@ export default class extends Controller {
 		let fields = ['flag', 'tag', 'class', 'algo', 'usage', 'selector', 'matching-type', 'priority', 'weight', 'port', 'content', 'target'];
 
 		fields.forEach(field => form.querySelector(`#fg-${field}`).classList.add('d-none'));
+		fields.forEach(field => form.querySelector(`#fg-${field} input`).value = '');
 
 		let showFields = {
 			A: ['target'],

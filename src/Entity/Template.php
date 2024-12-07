@@ -2,6 +2,8 @@
 
 namespace PowerADM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PowerADM\Repository\TemplateRepository;
@@ -21,6 +23,16 @@ class Template implements ArrayExpressible {
 
 	#[ORM\Column(nullable: true)]
 	private ?array $records = null;
+
+	/**
+	 * @var Collection<int, TemplateRecord>
+	 */
+	#[ORM\OneToMany(targetEntity: TemplateRecord::class, mappedBy: 'template', orphanRemoval: true)]
+	private Collection $templateRecords;
+
+	public function __construct() {
+		$this->templateRecords = new ArrayCollection();
+	}
 
 	public function getId(): ?int {
 		return $this->id;
@@ -58,5 +70,28 @@ class Template implements ArrayExpressible {
 
 	public function toArray(): array {
 		return get_object_vars($this);
+	}
+
+	public function getTemplateRecords(): Collection {
+		return $this->templateRecords;
+	}
+
+	public function addTemplateRecord(TemplateRecord $templateRecord): static {
+		if (!$this->templateRecords->contains($templateRecord)) {
+			$this->templateRecords->add($templateRecord);
+			$templateRecord->setTemplate($this);
+		}
+
+		return $this;
+	}
+
+	public function removeTemplateRecord(TemplateRecord $templateRecord): static {
+		if ($this->templateRecords->removeElement($templateRecord)) {
+			if ($templateRecord->getTemplate() === $this) {
+				$templateRecord->setTemplate(null);
+			}
+		}
+
+		return $this;
 	}
 }

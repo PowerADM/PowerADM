@@ -1,0 +1,46 @@
+{% extends '@EasyAdmin/crud/detail.html.twig' %}
+
+{% block main %}
+    {{ parent() }}
+	<twig:Turbo:Frame class="zone-editor" data-controller="zone-editor" id="records" data-zone="{{ zone }}" data-zone-type="{{ zoneType }}">
+
+		<div class="content-header-title">
+			<h2 class="title" style="float: left;">Records</h2>
+			<button class="btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#newRecordModal">Add Record</button>
+		</div>
+		<table class="table datagrid">
+			<thead>
+				<tr>
+					<th><span>Name</span></th>
+					<th><span>TTL</span></th>
+					<th><span>Type</span></th>
+					<th><span>Content</span></th>
+					<th><span>Comment</span></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for record in records %}
+					{% if record.type != 'SOA' %}
+						<tr>
+							<td>{{ record.displayName|default(record.name) }}</td>
+							<td>{{ record.ttl }}</td>
+							<td>{{ record.type }}</td>
+							<td style="word-break: break-word;">{{ record.content }}</td>
+							<td>{{ record.comment }}</td>
+							<td class="actions" style="white-space: nowrap;">
+								<a href="#" class="action-detail" data-bs-toggle="modal" data-bs-target="#editRecordModal" data-action="zone-editor#editRecord" data-record="{{ record.toArray()|json_encode }}">Edit</a>
+								<a href="#" class=" action-delete text-danger" data-action="zone-editor#deleteRecord" data-record="{{ record.toArray()|json_encode }}">Delete</a>
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+		{% set data = { identifier: 'newRecordModal', action: 'zone-editor#addRecord' } %}
+		{% include 'forms/record_modal.html.twig' with data %}
+
+		{% set data = { identifier: 'editRecordModal', action: 'zone-editor#updateRecord' } %}
+		{% include 'forms/record_modal.html.twig' with data %}
+	</twig:Turbo:Frame>
+{% endblock %}

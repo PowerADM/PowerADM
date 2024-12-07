@@ -5,6 +5,7 @@ namespace PowerADM\Controller;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use PowerADM\Entity\Template;
 
@@ -21,7 +22,19 @@ class TemplateCrudController extends AbstractCrudController {
 				->renderContentMaximized()
 				->showEntityActionsInlined(true)
 				->setEntityPermission('ROLE_ADMIN')
+				->overrideTemplate('crud/detail', 'template_detail.html.twig')
 		;
+	}
+
+	public function detail(AdminContext $context) {
+		$template = $context->getEntity()->getInstance();
+		$responseParameters = parent::detail($context);
+		$responseParameters->set('zone', $template->getId());
+		$responseParameters->set('zoneType', 'template');
+		$responseParameters->set('zoneTypes', explode(',', $this->getParameter('forward_record_types') . ',' . $this->getParameter('reverse_record_types')));
+		$responseParameters->set('records', $template->getTemplateRecords());
+
+		return $responseParameters;
 	}
 
 	public function configureActions(Actions $actions): Actions {
