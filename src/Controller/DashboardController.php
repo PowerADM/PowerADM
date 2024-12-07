@@ -71,7 +71,8 @@ class DashboardController extends AbstractDashboardController {
 
 	public function configureDashboard(): Dashboard {
 		return Dashboard::new()
-			->setTitle('PowerADM')
+			->setTitle("<img src='/img/logo.svg' alt='PowerADM Logo' class='pe-3'>")
+			->setFaviconPath('img/favicon.svg')
 			->setDefaultColorScheme('auto')
 			->generateRelativeUrls(true)
 		;

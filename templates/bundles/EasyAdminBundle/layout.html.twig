@@ -11,7 +11,7 @@
     {% endblock head_metas %}
 
     {% set page_title_block_output %}{% block page_title %}{{ block('content_title') }}{% endblock %}{% endset %}
-    <title>{{ page_title_block_output|striptags|raw }}</title>
+    <title>{{ page_title_block_output|default('Dashboard')|striptags|raw }} - PowerADM</title>
 
     {% block head_stylesheets %}
         <link rel="stylesheet" href="{{ asset('app.css', ea.assets.defaultAssetPackageName) }}">

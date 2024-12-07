@@ -6,6 +6,9 @@
 parameters:
   forward_record_types: '%env(FORWARD_RECORD_TYPES)%'
   reverse_record_types: '%env(REVERSE_RECORD_TYPES)%'
+  oidc_admin_role: '%env(OIDC_ADMIN_ROLE)%'
+  oidc_editor_role: '%env(OIDC_EDITOR_ROLE)%'
+  oidc_user_role: '%env(OIDC_USER_ROLE)%'
 
 services:
     # default configuration for services in *this* file

@@ -13,6 +13,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController {
 	#[Route(path: '/login', name: 'login')]
 	public function login(AuthenticationUtils $authenticationUtils): Response {
+		if ($this->getUser() !== null) {
+			return $this->redirectToRoute('padm');
+		}
 		$error = $authenticationUtils->getLastAuthenticationError();
 		$lastUsername = $authenticationUtils->getLastUsername();
 
@@ -21,6 +24,7 @@ class SecurityController extends AbstractController {
 			'last_username' => $lastUsername,
 			'translation_domain' => 'admin',
 			'page_title' => 'PowerADM Login',
+			'favicon_path' => 'img/favicon.svg',
 			'target_path' => $this->generateUrl('padm'),
 			'username_label' => 'Your username',
 			'password_label' => 'Your password',

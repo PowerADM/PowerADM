@@ -119,6 +119,9 @@ export default class extends Controller {
 			case 'OPENPGPKEY':
 			case 'TXT':
 				form.querySelector('input[name="content"]').value = record.content.replace(/^"+|"+$/g, '');
+				break;
+			default:
+				form.querySelector('input[name="content"]').value = record.content;
 		}
 	}
 
@@ -150,6 +153,9 @@ export default class extends Controller {
 			case 'OPENPGPKEY':
 			case 'TXT':
 				recordContent = `"${content}"`;
+				break;
+			default:
+				recordContent = content;
 		}
 
 		let record = {
@@ -182,7 +188,7 @@ export default class extends Controller {
 			OPENPGPKEY: ['content'],
 			TLSA: ['usage', 'selector', 'matching-type', 'content'],
 			TXT: ['content']
-		}[type] || [];
+		}[type] || ['content'];
 
 		showFields.forEach(field => form.querySelector(`#fg-${field}`).classList.remove('d-none'));
 	}
