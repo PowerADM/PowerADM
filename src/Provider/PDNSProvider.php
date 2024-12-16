@@ -70,8 +70,9 @@ class PDNSProvider {
 	public function syncZoneFromPDNS(ForwardZone|ReverseZone $zone): void {
 		$pdnsZone = $this->pdns->zone($zone->getName());
 		$resource = $pdnsZone->resource();
-		$zone->setType($resource->getKind());
-		$zone->setSerial($resource->getSerial());
+		$zone->setType($resource->getKind())
+			 ->setSerial($resource->getSerial())
+		;
 		$this->entityManager->persist($zone);
 		$this->entityManager->flush();
 	}
@@ -94,8 +95,9 @@ class PDNSProvider {
 				$localZone = $this->reverseZoneRepository->findOneBy(['name' => $name]);
 			}
 			if ($localZone) {
-				$localZone->setType($resource->getKind());
-				$localZone->setSerial($resource->getSerial());
+				$localZone->setType($resource->getKind())
+						  ->setSerial($resource->getSerial())
+				;
 				$this->entityManager->persist($localZone);
 				continue;
 			}
@@ -104,9 +106,10 @@ class PDNSProvider {
 			} else {
 				$zone = new ReverseZone();
 			}
-			$zone->setName($name);
-			$zone->setType($resource->getKind());
-			$zone->setSerial($resource->getSerial());
+			$zone->setName($name)
+				 ->setType($resource->getKind())
+				 ->setSerial($resource->getSerial())
+			;
 
 			$this->entityManager->persist($zone);
 		}
@@ -144,7 +147,8 @@ class PDNSProvider {
 	}
 
 	public function updateRecord(Zone $zone, array $oldRecord, array $newRecord): void {
-		if ($oldRecord['name'] != $newRecord['name'] || $oldRecord['type'] != $newRecord['type']) {
+		if ($oldRecord['displayName'] != $newRecord['name'] || $oldRecord['type'] != $newRecord['type']) {
+			// TODO: Make sure the record will be restored if the update fails
 			$this->deleteRecord($zone, $oldRecord);
 			$this->createRecord($zone, $newRecord);
 

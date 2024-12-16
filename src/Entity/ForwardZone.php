@@ -55,6 +55,10 @@ class ForwardZone implements ArrayExpressible {
 		return $this;
 	}
 
+	public function getTemplate(): string {
+		return '';
+	}
+
 	public function toArray(): array {
 		$array = get_object_vars($this);
 		$array['entityType'] = 'forwardZone';

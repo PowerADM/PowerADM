@@ -7,6 +7,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use PowerADM\Entity\Template;
 
 class TemplateCrudController extends AbstractCrudController {
@@ -41,6 +45,17 @@ class TemplateCrudController extends AbstractCrudController {
 		return $actions
 			->disable(Action::BATCH_DELETE)
 			->add(Crud::PAGE_INDEX, Action::DETAIL)
+		;
+	}
+
+	public function configureFields(string $pageName): iterable {
+		yield IdField::new('id')->onlyOnIndex();
+		yield TextField::new('name')
+						->setColumns('col-8 col-xl-6 col-xxl-4')
+		;
+		yield FormField::addRow();
+		yield TextareaField::new('description')
+						->setColumns('col-8 col-xl-6 col-xxl-4')
 		;
 	}
 }

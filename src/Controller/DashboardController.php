@@ -92,5 +92,12 @@ class DashboardController extends AbstractDashboardController {
 			yield MenuItem::linkToCrud('Templates', 'fa fa-copy', Template::class);
 			yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
 		}
+		yield MenuItem::section();
+		yield MenuItem::linkToUrl('GitHub', 'fa-brands fa-github', 'https://github.com/poweradm/poweradm/')
+			->setLinkTarget('_blank')
+		;
+		yield MenuItem::linkToUrl('Help', 'fa fa-circle-question', 'https://poweradm.github.io/docs/')
+			->setLinkTarget('_blank')
+		;
 	}
 }

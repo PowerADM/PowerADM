@@ -32,6 +32,15 @@ class TemplateRecord implements ArrayExpressible {
 	#[ORM\Column(type: Types::TEXT, nullable: true)]
 	private ?string $comment = null;
 
+	public function __construct(?Template $template = null, ?array $record = null) {
+		$this->template = $template;
+		$this->name = $record['name'] ?? null;
+		$this->ttl = $record['ttl'] ?? null;
+		$this->type = $record['type'] ?? null;
+		$this->content = $record['content'] ?? null;
+		$this->comment = $record['comment'] ?? null;
+	}
+
 	public function getId(): ?int {
 		return $this->id;
 	}
@@ -92,6 +101,16 @@ class TemplateRecord implements ArrayExpressible {
 
 	public function setComment(?string $comment): static {
 		$this->comment = $comment;
+
+		return $this;
+	}
+
+	public function setRecordData(array $record): static {
+		$this->name = $record['name'];
+		$this->ttl = $record['ttl'];
+		$this->type = $record['type'];
+		$this->content = $record['content'];
+		$this->comment = $record['comment'];
 
 		return $this;
 	}

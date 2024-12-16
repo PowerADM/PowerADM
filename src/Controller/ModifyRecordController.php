@@ -10,10 +10,14 @@ use PowerADM\Repository\ReverseZoneRepository;
 use PowerADM\Repository\TemplateRecordRepository;
 use PowerADM\Repository\TemplateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/modify-record', name: 'modify_record')]
 class ModifyRecordController extends AbstractController {
 	public function __construct(
 		private PDNSProvider $pdnsProvider,
@@ -26,101 +30,62 @@ class ModifyRecordController extends AbstractController {
 	) {
 	}
 
-	#[Route('/api/modify-record', name: 'modify_record', methods: ['PUT'])]
-	public function modifyRecord(): Response {
+	public function __invoke(): Response {
 		if ($this->getUser() === null) {
 			throw $this->createAccessDeniedException();
 		}
-
+		$request = $this->requestStack->getCurrentRequest();
+		$body = json_decode($request->getContent(), true);
 		try {
-			$request = $this->requestStack->getCurrentRequest();
-			$body = json_decode($request->getContent(), true);
 			$zone = $this->getZone($body);
 			if ($body['zoneType'] === 'template') {
+				$this->modifyTemplateRecord($zone, $body, $request->getMethod());
+			} else {
+				$this->modifyPDNSRecord($zone, $body, $request->getMethod());
+			}
+		} catch (\Exception $e) {
+			return new Response($e->getMessage(), 500);
+		}
+
+		return new Response();
+	}
+
+	private function modifyPDNSRecord($zone, $body, $method): void {
+		switch ($method) {
+			case 'PUT':
+				$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
+				$this->pdnsProvider->updateRecord($pdnsZone, $body['old_record'], $body['record']);
+				break;
+			case 'POST':
+				$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
+				$this->pdnsProvider->createRecord($pdnsZone, $body['record']);
+				break;
+			case 'DELETE':
+				$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
+				$this->pdnsProvider->deleteRecord($pdnsZone, $body['record']);
+				break;
+		}
+	}
+
+	private function modifyTemplateRecord($zone, $body, $method): void {
+		switch ($method) {
+			case 'PUT':
 				$templateRecord = $this->templateRecordRepository->findOneBy(['id' => $body['old_record']['id']]);
-				$templateRecord->setName($body['record']['name']);
-				$templateRecord->setTtl($body['record']['ttl']);
-				$templateRecord->setType($body['record']['type']);
-				$templateRecord->setContent($body['record']['content']);
-				$templateRecord->setComment($body['record']['comment']);
+				$templateRecord->setRecordData($body['record']);
 				$this->entityManager->persist($templateRecord);
-				$this->entityManager->flush();
-
-				return new Response();
-			}
-
-			$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
-
-			$this->pdnsProvider->updateRecord($pdnsZone, $body['old_record'], $body['record']);
-		} catch (\Exception $e) {
-			return new Response($e->getMessage(), 500);
-		}
-
-		return new Response();
-	}
-
-	#[Route('/api/modify-record', name: 'create_record', methods: ['POST'])]
-	public function createRecord(): Response {
-		if ($this->getUser() === null) {
-			throw $this->createAccessDeniedException();
-		}
-
-		try {
-			$request = $this->requestStack->getCurrentRequest();
-			$body = json_decode($request->getContent(), true);
-			$zone = $this->getZone($body);
-			if ($body['zoneType'] === 'template') {
-				$templateRecord = new TemplateRecord();
-				$templateRecord->setName($body['record']['name']);
-				$templateRecord->setTtl($body['record']['ttl']);
-				$templateRecord->setType($body['record']['type']);
-				$templateRecord->setContent($body['record']['content']);
-				$templateRecord->setComment($body['record']['comment']);
-				$templateRecord->setTemplate($zone);
-				$zone->addTemplateRecord($templateRecord);
+				break;
+			case 'POST':
+				$templateRecord = new TemplateRecord($zone, $body['record']);
 				$this->entityManager->persist($templateRecord);
-				$this->entityManager->flush();
-
-				return new Response();
-			}
-			$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
-
-			$this->pdnsProvider->createRecord($pdnsZone, $body['record']);
-		} catch (\Exception $e) {
-			return new Response($e->getMessage(), 500);
-		}
-
-		return new Response();
-	}
-
-	#[Route('/api/modify-record', name: 'delete_record', methods: ['DELETE'])]
-	public function deleteRecord(): Response {
-		if ($this->getUser() === null) {
-			throw $this->createAccessDeniedException();
-		}
-
-		try {
-			$request = $this->requestStack->getCurrentRequest();
-			$body = json_decode($request->getContent(), true);
-			$zone = $this->getZone($body);
-			if ($body['zoneType'] === 'template') {
+				break;
+			case 'DELETE':
 				$templateRecord = $this->templateRecordRepository->findOneBy(['id' => $body['record']['id']]);
 				$this->entityManager->remove($templateRecord);
-				$this->entityManager->flush();
-
-				return new Response();
-			}
-			$pdnsZone = $this->pdnsProvider->get()->zone($zone->getName());
-
-			$this->pdnsProvider->deleteRecord($pdnsZone, $body['record']);
-		} catch (\Exception $e) {
-			return new Response($e->getMessage(), 500);
 		}
-
-		return new Response();
+		$this->entityManager->flush();
 	}
 
-	public function getZone(array $body): object {
+	private function getZone(array $body): object {
 		if ($body['zoneType'] === 'forward') {
 			$permission = 'FORWARD_ZONE_EDIT';
 			$zone = $this->forwardZoneRepository->find($body['zone']);
@@ -131,15 +96,15 @@ class ModifyRecordController extends AbstractController {
 			$permission = 'ROLE_ADMIN';
 			$zone = $this->templateRepository->find($body['zone']);
 		} else {
-			throw new \Exception('Invalid zone type');
+			throw new BadRequestException('Invalid zone type');
 		}
 
 		if ($zone === null) {
-			throw new \Exception('Zone not found');
+			throw new NotFoundHttpException('Zone not found');
 		}
 
 		if (!$this->isGranted($permission, $zone)) {
-			throw $this->createAccessDeniedException();
+			throw new AccessDeniedException('You do not have permission to modify this zone');
 		}
 
 		return $zone;

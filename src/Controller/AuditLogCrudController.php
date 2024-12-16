@@ -47,7 +47,7 @@ class AuditLogCrudController extends AbstractCrudController {
 		yield AssociationField::new('user')
 						->setColumns('col-8 col-xl-6 col-xxl-4')
 						->setDisabled(true)
-						->formatValue(fn ($value, $entity) => $entity->getUser()->getFullName() ?: $entity->getUser()->getUsername())
+						->formatValue(fn ($value, $entity) => $entity->getUser()?->getFullName() ?: $entity->getUser()?->getUsername())
 		;
 		yield ChoiceField::new('action')
 						->setColumns('col-8 col-xl-6 col-xxl-4')

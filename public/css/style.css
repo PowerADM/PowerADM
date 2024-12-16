@@ -26,3 +26,6 @@ body[data-bs-theme="dark"] .only-light{
 .dropdown-settings .dropdown-settings-button{
 	padding-inline: 8px;
 }
+#main-menu .menu .menu-item-contents{
+	align-items: center;
+}

@@ -36,7 +36,10 @@
             {% endif %}
         </span>
     {% else %}
-        <a href="{{ item.linkUrl }}" class="menu-item-contents {{ item.hasSubItems ? 'submenu-toggle' }} {{ item.cssClass }}" rel="{{ item.linkRel }}" referrerpolicy="origin-when-cross-origin" {{ _self.render_html_attributes(item) }}>
+		{% if item.linkTarget == '_blank' %}
+			{% set target = 'target="_blank"' %}
+		{% endif %}
+        <a href="{{ item.linkUrl }}" class="menu-item-contents {{ item.hasSubItems ? 'submenu-toggle' }} {{ item.cssClass }}" {{ target|default}} rel="{{ item.linkRel }}" referrerpolicy="origin-when-cross-origin" {{ _self.render_html_attributes(item) }}>
             {% if item.icon is not empty %}<i class="menu-icon fa-fw {{ item.icon }}"></i>{% endif %}
             <span class="menu-item-label position-relative">
                 {{ item.label|trans|raw }}

@@ -13,10 +13,12 @@ class AuditLogger {
 
 	public function log(array $entity, ?array $change, string $action): void {
 		$auditLog = new AuditLog();
-		$auditLog->setAction($action);
-		$auditLog->setEntity($entity);
-		$auditLog->setChangeSet($change ?? $entity);
-		$auditLog->setCreated(new \DateTimeImmutable());
+		$auditLog->setAction($action)
+				 ->setEntity($entity)
+				 ->setChangeSet($change ?? $entity)
+				 ->setCreated(new \DateTimeImmutable())
+		;
+
 		$user = $this->security->getUser();
 		if ($user instanceof User) {
 			$auditLog->setUser($user);

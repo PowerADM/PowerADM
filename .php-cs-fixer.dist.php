@@ -3,6 +3,7 @@
 $finder = (new PhpCsFixer\Finder())
 	->in([
 		__DIR__.'/src',
+		__DIR__.'/migrations',
 	])
 ;
 

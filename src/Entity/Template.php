@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PowerADM\Repository\TemplateRepository;
 
 #[ORM\Entity(repositoryClass: TemplateRepository::class)]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NAME', fields: ['name'])]
 class Template implements ArrayExpressible {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]

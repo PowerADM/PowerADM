@@ -2,7 +2,7 @@
 
 {% block main %}
     {{ parent() }}
-	<twig:Turbo:Frame class="zone-editor" data-controller="zone-editor" id="records" data-zone="{{ zone }}" data-zone-type="{{ zoneType }}">
+	<turbo-frame class="zone-editor" data-controller="zone-editor" id="records" data-zone="{{ zone }}" data-zone-type="{{ zoneType }}">
 
 		<div class="content-header-title">
 			<h2 class="title" style="float: left;">Records</h2>
@@ -42,5 +42,5 @@
 
 		{% set data = { identifier: 'editRecordModal', action: 'zone-editor#updateRecord' } %}
 		{% include 'forms/record_modal.html.twig' with data %}
-	</twig:Turbo:Frame>
+	</turbo-frame>
 {% endblock %}
