@@ -20,8 +20,6 @@ security:
                 enable_csrf: false # TODO: Enable CSRF protection
             logout:
                 path: logout
-                # where to redirect after logout
-                # target: app_any_route
 
     access_control:
         - { path: ^/login$, role: PUBLIC_ACCESS }

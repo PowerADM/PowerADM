@@ -21,6 +21,8 @@ class ForwardZone implements ArrayExpressible {
 	#[ORM\Column(nullable: true)]
 	private ?int $serial = null;
 
+	public ?int $template = null;
+
 	public function getId(): ?int {
 		return $this->id;
 	}
@@ -31,6 +33,9 @@ class ForwardZone implements ArrayExpressible {
 
 	public function setName(string $name): static {
 		$this->name = $name;
+		if (!str_ends_with($name, '.')) {
+			$this->name .= '.';
+		}
 
 		return $this;
 	}
@@ -55,8 +60,8 @@ class ForwardZone implements ArrayExpressible {
 		return $this;
 	}
 
-	public function getTemplate(): string {
-		return '';
+	public function getTemplate(): ?int {
+		return $this->template;
 	}
 
 	public function toArray(): array {
