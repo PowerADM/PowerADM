@@ -5,6 +5,9 @@ namespace PowerADM\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
 use PowerADM\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, ArrayEx
 
 	#[ORM\Column(length: 255, nullable: true)]
 	private ?string $fullname = null;
-
+	
 	#[ORM\ManyToMany(targetEntity: ForwardZone::class)]
 	private Collection $allowed_forward_zones;
 

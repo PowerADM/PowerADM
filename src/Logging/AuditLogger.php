@@ -15,7 +15,7 @@ class AuditLogger {
 		$auditLog = new AuditLog();
 		$auditLog->setAction($action)
 				 ->setEntity($entity)
-				 ->setChangeSet($change ?? $entity)
+				 ->setChangeSet($change ?? [])
 				 ->setCreated(new \DateTimeImmutable())
 		;
 

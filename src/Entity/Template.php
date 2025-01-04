@@ -22,9 +22,6 @@ class Template implements ArrayExpressible {
 	#[ORM\Column(type: Types::TEXT, nullable: true)]
 	private ?string $description = null;
 
-	#[ORM\Column(nullable: true)]
-	private ?array $records = null;
-
 	/**
 	 * @var Collection<int, TemplateRecord>
 	 */
@@ -59,18 +56,9 @@ class Template implements ArrayExpressible {
 		return $this;
 	}
 
-	public function getRecords(): ?array {
-		return $this->records;
-	}
-
-	public function setRecords(?array $records): static {
-		$this->records = $records;
-
-		return $this;
-	}
-
 	public function toArray(): array {
 		$array = get_object_vars($this);
+		unset($array['templateRecords']);
 		$array['entityType'] = 'template';
 
 		return $array;

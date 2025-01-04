@@ -66,6 +66,7 @@ class ReverseZone implements ArrayExpressible {
 
 	public function toArray(): array {
 		$array = get_object_vars($this);
+		unset($array['template']);
 		$array['entityType'] = 'reverseZone';
 
 		return $array;

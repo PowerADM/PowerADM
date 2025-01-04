@@ -22,6 +22,7 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
 #[AsDoctrineListener(event: Events::postUpdate, priority: 500, connection: 'default')]
 class AuditLogListener {
 	private ArrayAdapter $arrayAdapter;
+	private array $removedObjects = [];
 
 	public function __construct(private AuditLogger $auditLogger) {
 		$this->arrayAdapter = new ArrayAdapter();
@@ -50,19 +51,18 @@ class AuditLogListener {
 		if ($args->getObject() instanceof AuditLog) {
 			return;
 		}
-		$entity = $args->getObject();
-
-		$this->arrayAdapter->get('id'.$entity->getId(), fn () => []);
+		$this->removedObjects[(string)$args->getObject()->getId()] = $args->getObject();
 	}
 
 	public function postRemove(PostRemoveEventArgs $args): void {
 		if ($args->getObject() instanceof AuditLog) {
 			return;
 		}
+		$id = array_search($args->getObject(), $this->removedObjects);
+		$object = $this->removedObjects[$id]->toArray();
+		$object['id'] = $id;
 		$entity = $args->getObject();
-		$id = $entity->getId();
-		$changeSet = $this->arrayAdapter->getItem('id'.$id)->get();
-		$this->auditLogger->log($entity->toArray(), $changeSet, 'DELETE');
+		$this->auditLogger->log($entity->toArray(), $object, 'DELETE');
 	}
 
 	public function preUpdate(PreUpdateEventArgs $args): void {
