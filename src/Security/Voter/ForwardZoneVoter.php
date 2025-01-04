@@ -11,6 +11,7 @@ final class ForwardZoneVoter extends AbstractZoneVoter {
 		foreach ($user->getAllowedForwardZones() as $zone) {
 			$zones[] = $zone->getId();
 		}
+
 		return $zones;
 	}
 

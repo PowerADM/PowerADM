@@ -51,7 +51,7 @@ class AuditLogListener {
 		if ($args->getObject() instanceof AuditLog) {
 			return;
 		}
-		$this->removedObjects[(string)$args->getObject()->getId()] = $args->getObject();
+		$this->removedObjects[(string) $args->getObject()->getId()] = $args->getObject();
 	}
 
 	public function postRemove(PostRemoveEventArgs $args): void {

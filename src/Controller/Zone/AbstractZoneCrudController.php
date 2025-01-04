@@ -54,14 +54,14 @@ abstract class AbstractZoneCrudController extends AbstractCrudController {
 		$zone = $this->pdns->createZone($entityInstance->getName(), []);
 		$zone->resource()->setKind($entityInstance->getType());
 		$entityInstance->setSerial($zone->resource()->getSerial());
-		if($entityInstance->getTemplate() !== null) {
+		if ($entityInstance->getTemplate() !== null) {
 			$template = $this->templateRepository->find($entityInstance->getTemplate());
 			foreach ($template->getTemplateRecords() as $templateRecord) {
 				$arrRecord = [
 					'name' => $templateRecord->getName(),
 					'type' => $templateRecord->getType(),
 					'content' => $templateRecord->getContent(),
-					'ttl' => $templateRecord->getTtl()
+					'ttl' => $templateRecord->getTtl(),
 				];
 				$this->pdnsProvider->createRecord($zone, $arrRecord);
 			}

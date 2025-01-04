@@ -15,6 +15,7 @@ final class ReverseZoneVoter extends AbstractZoneVoter {
 		foreach ($user->getAllowedReverseZones() as $zone) {
 			$zones[] = $zone->getId();
 		}
+
 		return $zones;
 	}
 
