@@ -29,3 +29,14 @@ body[data-bs-theme="dark"] .only-light{
 #main-menu .menu .menu-item-contents{
 	align-items: center;
 }
+.dropdown-menu i{
+	margin: 0;
+}
+.user-menu-wrapper .user-avatar{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.user-menu-wrapper .user-avatar .user-avatar-icon-background{
+	display: none;
+}
