@@ -80,23 +80,23 @@ class DashboardController extends AbstractDashboardController {
 	}
 
 	public function configureMenuItems(): iterable {
-		yield MenuItem::linkToUrl('Dashboard', 'fa fa-home', $this->generateUrl('padm'));
+		yield MenuItem::linkToUrl('pdns.dashboard', 'fa fa-home', $this->generateUrl('padm'));
 		yield MenuItem::section();
-		yield MenuItem::linkToCrud('Forward Zones', 'fa fa-arrow-right', ForwardZone::class);
-		yield MenuItem::linkToCrud('Reverse Zones', 'fa fa-arrow-left', ReverseZone::class);
+		yield MenuItem::linkToCrud('pdns.forward_zones', 'fa fa-arrow-right', ForwardZone::class);
+		yield MenuItem::linkToCrud('pdns.reverse_zones', 'fa fa-arrow-left', ReverseZone::class);
 		if ($this->isGranted('ROLE_ADMIN')) {
 			yield MenuItem::section();
-			yield MenuItem::linkToCrud('Audit Log', 'fa fa-file-lines', AuditLog::class);
-			yield MenuItem::linkToUrl('PDNS configuration', 'fa fa-wrench', '/configuration');
-			yield MenuItem::linkToUrl('Statistics', 'fa fa-chart-simple', '/statistics');
-			yield MenuItem::linkToCrud('Templates', 'fa fa-copy', Template::class);
-			yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
+			yield MenuItem::linkToCrud('pdns.audit_log.audit_log', 'fa fa-file-lines', AuditLog::class);
+			yield MenuItem::linkToUrl('pdns.configuration.pdns_configuration_short', 'fa fa-wrench', '/configuration');
+			yield MenuItem::linkToUrl('pdns.statistics.statistics', 'fa fa-chart-simple', '/statistics');
+			yield MenuItem::linkToCrud('pdns.templates', 'fa fa-copy', Template::class);
+			yield MenuItem::linkToCrud('pdns.users', 'fa fa-user', User::class);
 		}
 		yield MenuItem::section();
-		yield MenuItem::linkToUrl('GitHub', 'fa-brands fa-github', 'https://github.com/poweradm/poweradm/')
+		yield MenuItem::linkToUrl('pdns.github', 'fa-brands fa-github', 'https://github.com/poweradm/poweradm/')
 			->setLinkTarget('_blank')
 		;
-		yield MenuItem::linkToUrl('Help', 'fa fa-circle-question', 'https://poweradm.github.io/docs/')
+		yield MenuItem::linkToUrl('pdns.help', 'fa fa-circle-question', 'https://poweradm.github.io/docs/')
 			->setLinkTarget('_blank')
 		;
 	}

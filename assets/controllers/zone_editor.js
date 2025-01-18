@@ -2,11 +2,11 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-	getZone(){
+	getZone() {
 		return this.element.dataset.zone;
 	}
 
-	getZoneType(){
+	getZoneType() {
 		return this.element.dataset.zoneType;
 	}
 
@@ -59,7 +59,7 @@ export default class extends Controller {
 		}).then(async response => {
 			if (response.ok) {
 				window.location.reload();
-			}else{
+			} else {
 				alert(await response.text());
 			}
 		});
@@ -77,7 +77,7 @@ export default class extends Controller {
 		form.querySelector('input[name="name"]').value = record.displayName || record.name;
 		form.querySelector('input[name="ttl"]').value = record.ttl;
 		form.querySelector('input[name="comment"]').value = record.comment;
-		switch(record.type) {
+		switch (record.type) {
 			case 'A':
 			case 'AAAA':
 			case 'ALIAS':
@@ -126,7 +126,7 @@ export default class extends Controller {
 		}
 	}
 
-	prepareRecord(data){
+	prepareRecord(data) {
 		let { type, name, ttl, target, flag, tag, priority, weight, port, content, algo, class: klass, comment } = Object.fromEntries(data.entries());
 
 		let recordContent = "";

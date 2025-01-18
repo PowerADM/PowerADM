@@ -100,7 +100,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, ArrayEx
 	public function toArray() {
 		$array = get_object_vars($this);
 		$array['entityType'] = 'user';
-		unset($array['password'], $array['allowed_forward_zones'], $array['allowed_reverse_zones']);
+		unset($array['password']);
+		$array['allowed_forward_zones'] = $this->allowed_forward_zones->map(fn ($zone) => $zone->getId())->toArray();
+		$array['allowed_reverse_zones'] = $this->allowed_reverse_zones->map(fn ($zone) => $zone->getId())->toArray();
 
 		return $array;
 	}

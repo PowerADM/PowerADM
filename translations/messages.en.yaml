@@ -1,0 +1,56 @@
+pdns:
+  dashboard: Dashboard
+  forward_zones: Forward Zones
+  reverse_zones: Reverse Zones
+  forward_zone: Forward Zone
+  reverse_zone: Reverse Zone
+  templates: Templates
+  users: Users
+  github: GitHub
+  help: Help
+  login:
+    login: Log in
+    oidc: Log in via OpenID Connect
+    username: Username
+    password: Password
+  dns:
+    native: Native
+    master: Master
+    slave: Slave
+    serial: Serial
+    record: Record
+    records: Records
+    name: Name
+    type: Type
+    content: Content
+    ttl: TTL
+    priority: Priority
+    comment: Comment
+    flag: Flag
+    tag: Tag
+    class: Class
+    algorithm: Algorithm
+    usage: Usage
+    selector: Selector
+    matching_type: Matching Type
+    weight: Weight
+    port: Port
+    target: Target
+    add_record: Add Record
+    add_forward_zone: Add Forward Zone
+    add_reverse_zone: Add Reverse Zone
+  statistics:
+    statistics: Statistics
+    pdns_statistics: PowerDNS statistics
+    statistic: Statistic
+    value: Value
+  configuration:
+    pdns_configuration_short: PDNS configuration
+    pdns_configuration: PowerDNS configuration
+    key: Key
+    value: Value
+  audit_log:
+    audit_log: Audit log
+    create: Create
+    update: Update
+    delete: Delete

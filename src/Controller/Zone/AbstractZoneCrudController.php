@@ -91,12 +91,13 @@ abstract class AbstractZoneCrudController extends AbstractCrudController {
 		yield IdField::new('id')->onlyOnIndex();
 		yield TextField::new('name')
 						->setColumns('col-8 col-xl-6 col-xxl-4')
+						->formatValue(fn ($value, $entity) => rtrim($entity->getName(), '.'))
 		;
 		yield ChoiceField::new('type')
 						->setChoices([
-							'Native' => 'Native',
-							'Master' => 'Master',
-							'Slave' => 'Slave',
+							'pdns.dns.native' => 'Native',
+							'pdns.dns.master' => 'Master',
+							'pdns.dns.slave' => 'Slave',
 						])->renderExpanded()
 		;
 		yield FormField::addRow();

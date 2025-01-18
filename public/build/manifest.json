@@ -1,0 +1,7 @@
+{
+  "build/app.css": "/build/app.css",
+  "build/app.js": "/build/app.js",
+  "build/runtime.js": "/build/runtime.js",
+  "build/vendors-node_modules_hotwired_stimulus_dist_stimulus_js-node_modules_core-js_modules_es_array-e22b82.js": "/build/vendors-node_modules_hotwired_stimulus_dist_stimulus_js-node_modules_core-js_modules_es_array-e22b82.js",
+  "build/vendors-node_modules_hotwired_stimulus_dist_stimulus_js-node_modules_core-js_modules_es_array-7bc805.js": "/build/vendors-node_modules_hotwired_stimulus_dist_stimulus_js-node_modules_core-js_modules_es_array-7bc805.js"
+}

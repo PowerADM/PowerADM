@@ -9,6 +9,10 @@ framework:
     #esi: true
     #fragments: true
 
+    set_locale_from_accept_language: true
+    set_content_language_from_locale: true
+    enabled_locales: ['en', 'de']
+
 when@test:
     framework:
         test: true

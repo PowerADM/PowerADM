@@ -9,10 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController {
 	#[Route(path: '/login', name: 'login')]
-	public function login(AuthenticationUtils $authenticationUtils): Response {
+	public function login(AuthenticationUtils $authenticationUtils, TranslatorInterface $translator): Response {
 		if ($this->getUser() !== null) {
 			return $this->redirectToRoute('padm');
 		}
@@ -26,9 +27,9 @@ class SecurityController extends AbstractController {
 			'page_title' => 'PowerADM Login',
 			'favicon_path' => 'img/favicon.svg',
 			'target_path' => $this->generateUrl('padm'),
-			'username_label' => 'Your username',
-			'password_label' => 'Your password',
-			'sign_in_label' => 'Log in',
+			'username_label' => $translator->trans('pdns.login.username'),
+			'password_label' => $translator->trans('pdns.login.password'),
+			'sign_in_label' => $translator->trans('pdns.login.login'),
 			'remember_me_enabled' => true,
 		]);
 	}

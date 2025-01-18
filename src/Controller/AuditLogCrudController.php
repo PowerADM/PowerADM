@@ -21,8 +21,8 @@ class AuditLogCrudController extends AbstractCrudController {
 
 	public function configureCrud(Crud $crud): Crud {
 		return $crud
-				->setEntityLabelInSingular('Audit Log')
-				->setEntityLabelInPlural('Audit Log')
+				->setEntityLabelInSingular('pdns.audit_log.audit_log')
+				->setEntityLabelInPlural('pdns.audit_log.audit_log')
 				->renderContentMaximized()
 				->showEntityActionsInlined(true)
 				->setDefaultSort(['created' => 'DESC'])
@@ -53,24 +53,51 @@ class AuditLogCrudController extends AbstractCrudController {
 						->setColumns('col-8 col-xl-6 col-xxl-4')
 						->setDisabled(true)
 						->setChoices([
-							'Create' => 'CREATE',
-							'Update' => 'UPDATE',
-							'Delete' => 'DELETE',
+							'pdns.audit_log.create' => 'CREATE',
+							'pdns.audit_log.update' => 'UPDATE',
+							'pdns.audit_log.delete' => 'DELETE',
 						])->renderAsBadges([
 							'CREATE' => 'primary',
 							'UPDATE' => 'warning',
 							'DELETE' => 'danger',
 						])->renderExpanded()
 		;
-		yield ArrayField::new('entity')
+		yield ArrayField::new('entityArray')
 						->setColumns('col-8 col-xl-6 col-xxl-4')
 						->setDisabled(true)
 						->setVirtual(true)
 						->formatValue(fn ($value, $entity) => $this->formatEntity($value, $entity))
 		;
+		yield ArrayField::new('changeSetArray')
+						->setColumns('col-8 col-xl-6 col-xxl-4')
+						->setDisabled(true)
+						->setVirtual(true)
+						->formatValue(fn ($value, $entity) => $this->formatChange($value, $entity))
+		;
 	}
 
 	private function formatEntity($value, $entity) {
+		$id = '';
+		if ($value['id']) {
+			$id = ' #'.$value['id'];
+		}
+		switch ($value['entityType']) {
+			case 'user':
+				return 'User'.$id.' ('.($value['fullname'] ?: $value['username']).')';
+			case 'forwardZone':
+				return 'Forward Zone'.$id.' ('.$value['name'].')';
+			case 'reverseZone':
+				return 'Reverse Zone'.$id.' ('.$value['name'].')';
+			case 'template':
+				return 'Template'.$id.' ('.$value['name'].')';
+			default:
+				return '';
+		}
+
+		return json_encode($value, \JSON_PRETTY_PRINT);
+	}
+
+	private function formatChange($value, $entity) {
 		return json_encode($value, \JSON_PRETTY_PRINT);
 	}
 }

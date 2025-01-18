@@ -1,14 +1,20 @@
 <form id="{{ id }}" data-action="{{ action }}">
 	<div class="form-group">
-		<label for="name">Name</label>
+		<label for="name">
+			{% trans %}pdns.dns.name{% endtrans %}
+		</label>
 		<input type="text" class="form-control" id="name" name="name" required placeholder="example.com.">
 	</div>
 	<div class="form-group">
-		<label for="ttl">TTL</label>
+		<label for="ttl">
+			{% trans %}pdns.dns.ttl{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="ttl" name="ttl" required>
 	</div>
 	<div class="form-group">
-		<label for="type">Type</label>
+		<label for="type">
+			{% trans %}pdns.dns.type{% endtrans %}
+		</label>
 		<select class="form-control" id="type" name="type" required data-action="zone-editor#changeType">
 			{% if zoneType == "forward" %}
 				{% for type in zoneTypes %}
@@ -22,55 +28,81 @@
 		</select>
 	</div>
 	<div class="form-group d-none" id="fg-flag">
-		<label for="flag">Flag</label>
+		<label for="flag">
+			{% trans %}pdns.dns.flag{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="flag" name="flag" min="0" max="1" placeholder="0, 1">
 	</div>
 	<div class="form-group d-none" id="fg-tag">
-		<label for="tag">Tag</label>
+		<label for="tag">
+			{% trans %}pdns.dns.tag{% endtrans %}
+		</label>
 		<input type="text" class="form-control" id="tag" name="tag" placeholder="issue">
 	</div>
 	<div class="form-group d-none" id="fg-class">
-		<label for="class">Class</label>
+		<label for="class">
+			{% trans %}pdns.dns.class{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="class" name="class" min="1" max="6" placeholder="1, 2, 3, 4, 6">
 	</div>
 	<div class="form-group d-none" id="fg-algo">
-		<label for="algo">Algorithm</label>
+		<label for="algo">
+			{% trans %}pdns.dns.algorithm{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="algo" name="algo" min="1" max="2" placeholder="1, 2">
 	</div>
 	<div class="form-group d-none" id="fg-usage">
-		<label for="usage">Usage</label>
+		<label for="usage">
+			{% trans %}pdns.dns.usage{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="usage" name="usage" min="0" max="3" placeholder="0-3">
 	</div>
 	<div class="form-group d-none" id="fg-selector">
-		<label for="selector">Selector</label>
+		<label for="selector">
+			{% trans %}pdns.dns.selector{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="selector" name="selector" min="0" max="1" placeholder="0, 1">
 	</div>
 	<div class="form-group d-none" id="fg-matching-type">
-		<label for="matching-type">Matching Type</label>
+		<label for="matching-type">
+			{% trans %}pdns.dns.matching_type{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="matching-type" name="matching-type" min="1" max="6" placeholder="0-2">
 	</div>
 	<div class="form-group d-none" id="fg-priority">
-		<label for="priority">Priority</label>
+		<label for="priority">
+			{% trans %}pdns.dns.priority{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="priority" name="priority" min="0" max="65535" placeholder="0-65535">
 	</div>
 	<div class="form-group d-none" id="fg-weight">
-		<label for="weight">Weight</label>
+		<label for="weight">
+			{% trans %}pdns.dns.weight{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="weight" name="weight" min="0" max="65535" placeholder="0-65535">
 	</div>
 	<div class="form-group d-none" id="fg-port">
-		<label for="port">Port</label>
+		<label for="port">
+			{% trans %}pdns.dns.port{% endtrans %}
+		</label>
 		<input type="number" class="form-control" id="port" name="port" min="0" max="65535" placeholder="0-65535">
 	</div>
 	<div class="form-group d-none" id="fg-content">
-		<label for="content">Content</label>
+		<label for="content">
+			{% trans %}pdns.dns.content{% endtrans %}
+		</label>
 		<input type="text" class="form-control" id="content" name="content">
 	</div>
 	<div class="form-group" id="fg-target">
-		<label for="target">Target</label>
+		<label for="target">
+			{% trans %}pdns.dns.target{% endtrans %}
+		</label>
 		<input type="text" class="form-control" id="target" name="target">
 	</div>
 	<div class="form-group" id="fg-comment">
-		<label for="comment">Comment</label>
+		<label for="comment">
+			{% trans %}pdns.dns.comment{% endtrans %}
+		</label>
 		<input type="text" class="form-control" id="comment" name="comment">
 	</div>
 </form>

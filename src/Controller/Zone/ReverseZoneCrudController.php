@@ -20,9 +20,9 @@ class ReverseZoneCrudController extends AbstractZoneCrudController {
 
 	public function configureCrud(Crud $crud): Crud {
 		return parent::configureCrud($crud)
-					->setEntityLabelInSingular('Reverse Zone')
-					->setEntityLabelInPlural('Reverse Zones')
-					->setPageTitle('detail', fn (ReverseZone $reverseZone) => \sprintf('Reverse Zone - %s', $reverseZone->getName()))
+					->setEntityLabelInSingular('pdns.reverse_zone')
+					->setEntityLabelInPlural('pdns.reverse_zones')
+					->setPageTitle('detail', fn (ReverseZone $reverseZone) => \sprintf('Reverse Zone - %s', rtrim($reverseZone->getName(), '.')))
 					->setEntityPermission('REVERSE_ZONE_EDIT')
 		;
 	}

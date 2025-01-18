@@ -1,13 +1,19 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block page_title %}PowerDNS statistics{% endblock %}
+{% block page_title %}
+	{% trans %}pdns.statistics.pdns_statistics{% endtrans %}
+{% endblock %}
 {% block main %}
 	<table class="table datagrid">
 		<thead>
 			<tr>
-				<th><span>Statistic</span></th>
+				<th><span>
+					{% trans %}pdns.statistics.statistic{% endtrans %}
+				</span></th>
 				<th></th>
-				<th><span>Value</span></th>
+				<th><span>
+					{% trans %}pdns.statistics.value{% endtrans %}
+				</span></th>
 			</tr>
 		</thead>
 		<tbody>

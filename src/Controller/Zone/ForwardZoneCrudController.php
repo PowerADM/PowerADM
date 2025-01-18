@@ -20,9 +20,9 @@ class ForwardZoneCrudController extends AbstractZoneCrudController {
 
 	public function configureCrud(Crud $crud): Crud {
 		return parent::configureCrud($crud)
-					->setEntityLabelInSingular('Forward Zone')
-					->setEntityLabelInPlural('Forward Zones')
-					->setPageTitle('detail', fn (ForwardZone $forwardZone) => \sprintf('Forward Zone - %s', $forwardZone->getName()))
+					->setEntityLabelInSingular('pdns.forward_zone')
+					->setEntityLabelInPlural('pdns.forward_zones')
+					->setPageTitle('detail', fn (ForwardZone $forwardZone) => \sprintf('Forward Zone - %s', rtrim($forwardZone->getName(), '.')))
 					->setEntityPermission('FORWARD_ZONE_EDIT')
 		;
 	}

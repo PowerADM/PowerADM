@@ -5,6 +5,6 @@
 		<img src="{{ asset('img/logo.svg') }}" alt="PowerADM Logo">
 	</div>
 	<div class="oidc mb-5">
-		<a href="{{ path('login_oidc') }}" class="btn btn-secondary btn-lg btn-block p-0">Login with OIDC</a>
+		<a href="{{ path('login_oidc') }}" class="btn btn-secondary btn-lg btn-block p-0">{{ 'pdns.login.oidc'|trans }}</a>
 	</div>
 {% endblock header_logo %}

@@ -64,6 +64,12 @@ class AuditLog {
 		return $this;
 	}
 
+	public function getChangeSetArray(): array {
+		$changeSet = [];
+
+		return [json_encode($this->changeSet)];
+	}
+
 	public function getEntity(): array {
 		return $this->entity;
 	}
@@ -72,6 +78,19 @@ class AuditLog {
 		$this->entity = $entity;
 
 		return $this;
+	}
+
+	public function getEntityArray(): array {
+		$entity = [];
+		foreach ($this->entity as $key => $value) {
+			if (\is_array($value)) {
+				$entity[$key] = '';
+				continue;
+			}
+			$entity[$key] = $value;
+		}
+
+		return $entity;
 	}
 
 	public function getAction(): ?string {

@@ -1,8 +1,21 @@
 import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
 import './styles/app.css';
+
+import { shouldPerformTransition, performTransition } from "turbo-view-transitions";
+
+document.addEventListener("turbo:before-render", (event) => {
+	if (shouldPerformTransition()) {
+		event.preventDefault();
+
+		performTransition(document.body, event.detail.newBody, async () => {
+			await event.detail.resume();
+		});
+	}
+});
+
+document.addEventListener("turbo:load", () => {
+	if (shouldPerformTransition()) Turbo.cache.exemptPageFromCache();
+
+	var event = new Event('DOMContentLoaded');
+	document.dispatchEvent(event);
+});

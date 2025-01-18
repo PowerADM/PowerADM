@@ -1,12 +1,18 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block page_title %}PowerDNS configuration{% endblock %}
+{% block page_title %}
+	{% trans %}pdns.configuration.pdns_configuration{% endtrans %}
+{% endblock %}
 {% block main %}
 	<table class="table datagrid">
 		<thead>
 			<tr>
-				<th><span>Key</span></th>
-				<th><span>Value</span></th>
+				<th><span>
+					{% trans %}pdns.configuration.key{% endtrans %}
+				</span></th>
+				<th><span>
+					{% trans %}pdns.configuration.value{% endtrans %}
+				</span></th>
 			</tr>
 		</thead>
 		<tbody>

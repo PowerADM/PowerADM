@@ -5,17 +5,31 @@
 	<turbo-frame class="zone-editor" data-controller="zone-editor" id="records" data-zone="{{ zone }}" data-zone-type="{{ zoneType }}">
 
 		<div class="content-header-title">
-			<h2 class="title" style="float: left;">Records</h2>
-			<button class="btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#newRecordModal">Add Record</button>
+			<h2 class="title" style="float: left;">
+				{% trans %}pdns.dns.records{% endtrans %}
+			</h2>
+			<button class="btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#newRecordModal">
+				{% trans %}pdns.dns.add_record{% endtrans %}
+			</button>
 		</div>
 		<table class="table datagrid">
 			<thead>
 				<tr>
-					<th><span>Name</span></th>
-					<th><span>TTL</span></th>
-					<th><span>Type</span></th>
-					<th><span>Content</span></th>
-					<th><span>Comment</span></th>
+					<th><span>
+						{% trans %}pdns.dns.name{% endtrans %}
+					</span></th>
+					<th><span>
+						{% trans %}pdns.dns.ttl{% endtrans %}
+					</span></th>
+					<th><span>
+						{% trans %}pdns.dns.type{% endtrans %}
+					</span></th>
+					<th><span>
+						{% trans %}pdns.dns.content{% endtrans %}
+					</span></th>
+					<th><span>
+						{% trans %}pdns.dns.comment{% endtrans %}
+					</span></th>
 					<th></th>
 				</tr>
 			</thead>
