@@ -4,6 +4,7 @@ namespace PowerADM\Controller;
 
 use Drenso\OidcBundle\OidcClientInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,6 +13,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController {
+
+	public function __construct(
+		#[Autowire('%env(OIDC_ENABLED)%')]
+		private readonly bool $oidcEnabled
+	){}
+
 	#[Route(path: '/login', name: 'login')]
 	public function login(AuthenticationUtils $authenticationUtils, TranslatorInterface $translator): Response {
 		if ($this->getUser() !== null) {
@@ -31,6 +38,7 @@ class SecurityController extends AbstractController {
 			'password_label' => $translator->trans('pdns.login.password'),
 			'sign_in_label' => $translator->trans('pdns.login.login'),
 			'remember_me_enabled' => true,
+			'oidcEnabled' => $this->oidcEnabled,
 		]);
 	}
 

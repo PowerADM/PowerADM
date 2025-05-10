@@ -2,12 +2,14 @@
 
 namespace PowerADM\EventListener;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 #[AsEventListener]
 class InsecureInstallationListener {
 	public function __construct(
+		#[Autowire('%kernel.secret%')]
 		#[\SensitiveParameter]
 		private readonly string $appSecret,
 	) {

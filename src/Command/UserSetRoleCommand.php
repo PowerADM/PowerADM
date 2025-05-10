@@ -36,6 +36,13 @@ class UserSetRoleCommand extends Command {
 			return Command::FAILURE;
 		}
 
+		if (!\in_array($role, ['ROLE_USER', 'ROLE_EDITOR', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], true)) {
+			$output->writeln(\sprintf('Invalid role <comment>%s</comment>', $role));
+			$output->writeln('Valid roles are: ROLE_USER, ROLE_EDITOR, ROLE_ADMIN, ROLE_SUPER_ADMIN');
+
+			return Command::FAILURE;
+		}
+
 		$user->setRole($role);
 		$this->entityManager->persist($user);
 		$this->entityManager->flush();

@@ -9,7 +9,7 @@
 		<label for="ttl">
 			{% trans %}pdns.dns.ttl{% endtrans %}
 		</label>
-		<input type="number" class="form-control" id="ttl" name="ttl" required>
+		<input type="number" class="form-control" id="ttl" name="ttl" pattern="\d+" required>
 	</div>
 	<div class="form-group">
 		<label for="type">
@@ -43,37 +43,37 @@
 		<label for="class">
 			{% trans %}pdns.dns.class{% endtrans %}
 		</label>
-		<input type="number" class="form-control" id="class" name="class" min="1" max="6" placeholder="1, 2, 3, 4, 6">
+		<input type="text" inputmode="numeric" class="form-control" id="class" name="class" pattern="[1-46]" min="1" max="6" placeholder="1, 2, 3, 4, 6">
 	</div>
 	<div class="form-group d-none" id="fg-algo">
 		<label for="algo">
 			{% trans %}pdns.dns.algorithm{% endtrans %}
 		</label>
-		<input type="number" class="form-control" id="algo" name="algo" min="1" max="2" placeholder="1, 2">
+		<input type="text" inputmode="numeric" class="form-control" id="algo" name="algo" pattern="[12]" placeholder="1, 2">
 	</div>
 	<div class="form-group d-none" id="fg-usage">
 		<label for="usage">
 			{% trans %}pdns.dns.usage{% endtrans %}
 		</label>
-		<input type="number" class="form-control" id="usage" name="usage" min="0" max="3" placeholder="0-3">
+		<input type="number" class="form-control" id="usage" name="usage" pattern="[0-3]" min="0" max="3" placeholder="0-3">
 	</div>
 	<div class="form-group d-none" id="fg-selector">
 		<label for="selector">
 			{% trans %}pdns.dns.selector{% endtrans %}
 		</label>
-		<input type="number" class="form-control" id="selector" name="selector" min="0" max="1" placeholder="0, 1">
+		<input type="number" class="form-control" id="selector" name="selector" pattern="[01]" min="0" max="1" placeholder="0, 1">
 	</div>
 	<div class="form-group d-none" id="fg-matching-type">
 		<label for="matching-type">
 			{% trans %}pdns.dns.matching_type{% endtrans %}
 		</label>
-		<input type="number" class="form-control" id="matching-type" name="matching-type" min="1" max="6" placeholder="0-2">
+		<input type="number" class="form-control" id="matching-type" name="matching-type" pattern="[0-2]" min="1" max="6" placeholder="0-2">
 	</div>
 	<div class="form-group d-none" id="fg-priority">
 		<label for="priority">
 			{% trans %}pdns.dns.priority{% endtrans %}
 		</label>
-		<input type="number" class="form-control" id="priority" name="priority" min="0" max="65535" placeholder="0-65535">
+		<input type="number" class="form-control" id="priority" name="priority" pattern="[0-]" min="0" max="65535" placeholder="0-65535">
 	</div>
 	<div class="form-group d-none" id="fg-weight">
 		<label for="weight">

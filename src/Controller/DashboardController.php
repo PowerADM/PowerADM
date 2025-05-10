@@ -27,7 +27,6 @@ class DashboardController extends AbstractDashboardController {
 	public function index(): Response {
 		$forwardZoneCount = $this->forwardZoneRepository->count([]);
 		$reverseZoneCount = $this->reverseZoneRepository->count([]);
-
 		return $this->render(
 			'dashboard.html.twig',
 			[
