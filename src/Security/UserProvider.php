@@ -1,13 +1,13 @@
 <?php
 
-namespace PowerADM\Security;
+namespace App\Security;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Drenso\OidcBundle\Exception\OidcException;
 use Drenso\OidcBundle\Model\OidcUserData;
 use Drenso\OidcBundle\Security\UserProvider\OidcUserProviderInterface;
-use PowerADM\Entity\User;
-use PowerADM\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;

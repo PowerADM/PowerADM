@@ -1,10 +1,10 @@
 <?php
 
-namespace PowerADM\Repository;
+namespace App\Repository;
 
+use App\Entity\AuditLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use PowerADM\Entity\AuditLog;
 
 class AuditLogRepository extends ServiceEntityRepository {
 	public function __construct(ManagerRegistry $registry) {

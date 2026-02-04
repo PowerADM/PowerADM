@@ -1,7 +1,9 @@
 <?php
 
-namespace PowerADM\EventListener;
+namespace App\EventListener;
 
+use App\Entity\AuditLog;
+use App\Logging\AuditLogger;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
@@ -10,8 +12,6 @@ use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
-use PowerADM\Entity\AuditLog;
-use PowerADM\Logging\AuditLogger;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 #[AsDoctrineListener(event: Events::prePersist, priority: 500, connection: 'default')]

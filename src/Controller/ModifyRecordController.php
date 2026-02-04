@@ -1,14 +1,14 @@
 <?php
 
-namespace PowerADM\Controller;
+namespace App\Controller;
 
+use App\Entity\TemplateRecord;
+use App\Provider\PDNSProvider;
+use App\Repository\ForwardZoneRepository;
+use App\Repository\ReverseZoneRepository;
+use App\Repository\TemplateRecordRepository;
+use App\Repository\TemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PowerADM\Entity\TemplateRecord;
-use PowerADM\Provider\PDNSProvider;
-use PowerADM\Repository\ForwardZoneRepository;
-use PowerADM\Repository\ReverseZoneRepository;
-use PowerADM\Repository\TemplateRecordRepository;
-use PowerADM\Repository\TemplateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;

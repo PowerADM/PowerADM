@@ -1,5 +1,5 @@
 when@dev:
     maker:
-        root_namespace: 'PowerADM'
+        root_namespace: 'App'
         generate_final_classes: true
         generate_final_entities: false

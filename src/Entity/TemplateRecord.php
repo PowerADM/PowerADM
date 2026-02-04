@@ -1,10 +1,10 @@
 <?php
 
-namespace PowerADM\Entity;
+namespace App\Entity;
 
+use App\Repository\TemplateRecordRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use PowerADM\Repository\TemplateRecordRepository;
 
 #[ORM\Entity(repositoryClass: TemplateRecordRepository::class)]
 class TemplateRecord implements ArrayExpressible {

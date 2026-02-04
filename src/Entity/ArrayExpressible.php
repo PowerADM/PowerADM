@@ -1,6 +1,6 @@
 <?php
 
-namespace PowerADM\Entity;
+namespace App\Entity;
 
 interface ArrayExpressible {
 	public function toArray();

@@ -1,7 +1,8 @@
 <?php
 
-namespace PowerADM\Controller;
+namespace App\Controller;
 
+use App\Entity\Template;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -11,7 +12,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use PowerADM\Entity\Template;
 
 class TemplateCrudController extends AbstractCrudController {
 	public static function getEntityFqcn(): string {

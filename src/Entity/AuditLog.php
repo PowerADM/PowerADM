@@ -1,9 +1,9 @@
 <?php
 
-namespace PowerADM\Entity;
+namespace App\Entity;
 
+use App\Repository\AuditLogRepository;
 use Doctrine\ORM\Mapping as ORM;
-use PowerADM\Repository\AuditLogRepository;
 
 #[ORM\Entity(repositoryClass: AuditLogRepository::class)]
 class AuditLog {

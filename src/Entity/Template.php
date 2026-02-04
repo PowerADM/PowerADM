@@ -1,12 +1,12 @@
 <?php
 
-namespace PowerADM\Entity;
+namespace App\Entity;
 
+use App\Repository\TemplateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use PowerADM\Repository\TemplateRepository;
 
 #[ORM\Entity(repositoryClass: TemplateRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NAME', fields: ['name'])]

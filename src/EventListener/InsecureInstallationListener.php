@@ -1,6 +1,6 @@
 <?php
 
-namespace PowerADM\EventListener;
+namespace App\EventListener;
 
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;

@@ -1,6 +1,6 @@
 <?php
 
-namespace PowerADM\Controller;
+namespace App\Controller;
 
 use Drenso\OidcBundle\OidcClientInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,11 +13,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController {
-
 	public function __construct(
 		#[Autowire('%env(OIDC_ENABLED)%')]
 		private readonly bool $oidcEnabled
-	){}
+	) {
+	}
 
 	#[Route(path: '/login', name: 'login')]
 	public function login(AuthenticationUtils $authenticationUtils, TranslatorInterface $translator): Response {

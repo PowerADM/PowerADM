@@ -1,7 +1,8 @@
 <?php
 
-namespace PowerADM\Controller\Zone;
+namespace App\Controller\Zone;
 
+use App\Entity\ReverseZone;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -10,7 +11,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use PowerADM\Entity\ReverseZone;
 
 #[AdminCrud(routePath: '/zones/reverse', routeName: 'reversezone')]
 class ReverseZoneCrudController extends AbstractZoneCrudController {

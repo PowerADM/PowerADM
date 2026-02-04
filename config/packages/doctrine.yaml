@@ -22,7 +22,7 @@ doctrine:
                 type: attribute
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'PowerADM\Entity'
+                prefix: 'App\Entity'
                 alias: App
         controller_resolver:
             auto_mapping: false

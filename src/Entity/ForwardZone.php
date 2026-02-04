@@ -1,9 +1,9 @@
 <?php
 
-namespace PowerADM\Entity;
+namespace App\Entity;
 
+use App\Repository\ForwardZoneRepository;
 use Doctrine\ORM\Mapping as ORM;
-use PowerADM\Repository\ForwardZoneRepository;
 
 #[ORM\Entity(repositoryClass: ForwardZoneRepository::class)]
 class ForwardZone implements ArrayExpressible {

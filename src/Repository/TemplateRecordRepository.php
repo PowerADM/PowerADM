@@ -1,10 +1,10 @@
 <?php
 
-namespace PowerADM\Repository;
+namespace App\Repository;
 
+use App\Entity\TemplateRecord;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use PowerADM\Entity\TemplateRecord;
 
 /**
  * @extends ServiceEntityRepository<TemplateRecord>

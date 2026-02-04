@@ -1,9 +1,9 @@
 <?php
 
-namespace PowerADM\Security\Voter;
+namespace App\Security\Voter;
 
-use PowerADM\Entity\ForwardZone;
-use PowerADM\Entity\User;
+use App\Entity\ForwardZone;
+use App\Entity\User;
 
 final class ForwardZoneVoter extends AbstractZoneVoter {
 	protected function getAllowedZones(User $user): array {

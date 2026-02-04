@@ -1,10 +1,10 @@
 <?php
 
-namespace PowerADM\Logging;
+namespace App\Logging;
 
+use App\Entity\AuditLog;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use PowerADM\Entity\AuditLog;
-use PowerADM\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class AuditLogger {

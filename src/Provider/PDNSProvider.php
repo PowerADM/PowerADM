@@ -1,16 +1,16 @@
 <?php
 
-namespace PowerADM\Provider;
+namespace App\Provider;
 
+use App\Entity\ForwardZone;
+use App\Entity\ReverseZone;
+use App\Repository\ForwardZoneRepository;
+use App\Repository\ReverseZoneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exonet\Powerdns\Connector;
 use Exonet\Powerdns\Powerdns;
 use Exonet\Powerdns\Resources\Record;
 use Exonet\Powerdns\Zone;
-use PowerADM\Entity\ForwardZone;
-use PowerADM\Entity\ReverseZone;
-use PowerADM\Repository\ForwardZoneRepository;
-use PowerADM\Repository\ReverseZoneRepository;
 
 class PDNSProvider {
 	private Powerdns $pdns;

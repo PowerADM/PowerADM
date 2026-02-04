@@ -1,7 +1,10 @@
 <?php
 
-namespace PowerADM\Controller\Zone;
+namespace App\Controller\Zone;
 
+use App\Entity\User;
+use App\Provider\PDNSProvider;
+use App\Repository\TemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -14,9 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Exonet\Powerdns\Powerdns;
-use PowerADM\Entity\User;
-use PowerADM\Provider\PDNSProvider;
-use PowerADM\Repository\TemplateRepository;
 
 abstract class AbstractZoneCrudController extends AbstractCrudController {
 	protected Powerdns $pdns;

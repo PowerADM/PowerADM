@@ -1,7 +1,8 @@
 <?php
 
-namespace PowerADM\Controller;
+namespace App\Controller;
 
+use App\Entity\AuditLog;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -11,7 +12,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use PowerADM\Entity\AuditLog;
 
 #[AdminCrud(routePath: '/audit-log', routeName: 'audit_log')]
 class AuditLogCrudController extends AbstractCrudController {

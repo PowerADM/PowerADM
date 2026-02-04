@@ -1,10 +1,10 @@
 <?php
 
-namespace PowerADM\Repository;
+namespace App\Repository;
 
+use App\Entity\ReverseZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use PowerADM\Entity\ReverseZone;
 
 class ReverseZoneRepository extends ServiceEntityRepository {
 	public function __construct(ManagerRegistry $registry) {

@@ -1,20 +1,20 @@
 <?php
 
-namespace PowerADM\Controller;
+namespace App\Controller;
 
+use App\Entity\AuditLog;
+use App\Entity\ForwardZone;
+use App\Entity\ReverseZone;
+use App\Entity\Template;
+use App\Entity\User;
+use App\Provider\PDNSProvider;
+use App\Repository\ForwardZoneRepository;
+use App\Repository\ReverseZoneRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use PowerADM\Entity\AuditLog;
-use PowerADM\Entity\ForwardZone;
-use PowerADM\Entity\ReverseZone;
-use PowerADM\Entity\Template;
-use PowerADM\Entity\User;
-use PowerADM\Provider\PDNSProvider;
-use PowerADM\Repository\ForwardZoneRepository;
-use PowerADM\Repository\ReverseZoneRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,6 +27,7 @@ class DashboardController extends AbstractDashboardController {
 	public function index(): Response {
 		$forwardZoneCount = $this->forwardZoneRepository->count([]);
 		$reverseZoneCount = $this->reverseZoneRepository->count([]);
+
 		return $this->render(
 			'dashboard.html.twig',
 			[

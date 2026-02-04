@@ -28,7 +28,7 @@ security:
 
     providers:
         user_provider:
-            id: PowerADM\Security\UserProvider
+            id: App\Security\UserProvider
 
     role_hierarchy:
         ROLE_EDITOR:      ROLE_USER

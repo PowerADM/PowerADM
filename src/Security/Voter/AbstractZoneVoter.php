@@ -1,8 +1,8 @@
 <?php
 
-namespace PowerADM\Security\Voter;
+namespace App\Security\Voter;
 
-use PowerADM\Entity\User;
+use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

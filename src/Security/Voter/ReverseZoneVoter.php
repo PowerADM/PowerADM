@@ -1,9 +1,9 @@
 <?php
 
-namespace PowerADM\Security\Voter;
+namespace App\Security\Voter;
 
-use PowerADM\Entity\ReverseZone;
-use PowerADM\Entity\User;
+use App\Entity\ReverseZone;
+use App\Entity\User;
 
 final class ReverseZoneVoter extends AbstractZoneVoter {
 	protected function getAttribute(): string {
